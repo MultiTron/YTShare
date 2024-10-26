@@ -1,0 +1,6 @@
+@address = http://192.168.170.42:5233
+
+GET {{address}}/GetIpAddress
+###
+
+GET {{address}}/Share?link=youtu.be/OtG5bXF0DZM?si=7UKT5Emrj4ga_5AN

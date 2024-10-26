@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "p4NZjMWCQhSgv9QshUPivX1q0ES9ajN5NAQsoHNM9lg=",
+  "Source": "YTShare.Server",
+  "BasePath": "_content/YTShare.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

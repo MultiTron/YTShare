@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">YTShare</string>
+    <string name="bottom_home">Home</string>
+    <string name="bottom_bookmarks">Bookmarks</string>
+    <string name="bottom_account">Account</string>
+    <string name="url_hint">Insert YouTube Link …</string>
+    <string name="url_button">Send</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">WIP</string>
+    <string-array name="ips">
+        <item>192.168.0.47</item>
+        <item>192.168.0.15</item>
+        <item>192.168.2.2</item>
+        <item>192.168.10.18</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,61 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\iliev\\Desktop\\YTShare\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C3DFC37F-B70F-45E5-9DF9-096ECA63EA7E}|YTShare.Server\\YTShare.Server.csproj|c:\\users\\iliev\\desktop\\ytshare\\ytshare.server\\ytshare.server.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{C3DFC37F-B70F-45E5-9DF9-096ECA63EA7E}|YTShare.Server\\YTShare.Server.csproj|solutionrelative:ytshare.server\\ytshare.server.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3DFC37F-B70F-45E5-9DF9-096ECA63EA7E}|YTShare.Server\\YTShare.Server.csproj|c:\\users\\iliev\\desktop\\ytshare\\ytshare.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3DFC37F-B70F-45E5-9DF9-096ECA63EA7E}|YTShare.Server\\YTShare.Server.csproj|solutionrelative:ytshare.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0174dea2-fdbe-4ef1-8f99-c0beae78880f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "YTShare.Server.http",
+              "DocumentMoniker": "C:\\Users\\iliev\\Desktop\\YTShare\\YTShare.Server\\YTShare.Server.http",
+              "RelativeDocumentMoniker": "YTShare.Server\\YTShare.Server.http",
+              "ToolTip": "C:\\Users\\iliev\\Desktop\\YTShare\\YTShare.Server\\YTShare.Server.http",
+              "RelativeToolTip": "YTShare.Server\\YTShare.Server.http",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-10-24T07:38:09.228Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\iliev\\Desktop\\YTShare\\YTShare.Server\\Program.cs",
+              "RelativeDocumentMoniker": "YTShare.Server\\Program.cs",
+              "ToolTip": "C:\\Users\\iliev\\Desktop\\YTShare\\YTShare.Server\\Program.cs",
+              "RelativeToolTip": "YTShare.Server\\Program.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAAAB0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-24T07:35:21.084Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
