@@ -13,13 +13,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var bottomNavView: BottomNavigationView
-    private var homeFragment:HomeFragment = HomeFragment()
-    private var historyFragment:HistoryFragment = HistoryFragment()
-    private var accountFragment:AccountFragment = AccountFragment()
+    private lateinit var bottomNavView : BottomNavigationView
+    public var homeFragment : HomeFragment = HomeFragment()
+    public var historyFragment : HistoryFragment = HistoryFragment()
+    public var accountFragment : AccountFragment = AccountFragment()
     public lateinit var queue : RequestQueue
+    public var ipAddress : String = "0.0.0.0"
 
-    var sharedUri:String = ""
+    var sharedUri : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun replaceFragment(fragment:Fragment) {
+    public fun replaceFragment(fragment:Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit()
     }
 
