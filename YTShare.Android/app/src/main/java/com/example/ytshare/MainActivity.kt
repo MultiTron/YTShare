@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         replaceFragment(homeFragment)
+
         when{
             intent?.action == Intent.ACTION_SEND -> {
                 if ("text/plain" == intent.type) {

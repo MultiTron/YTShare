@@ -1,10 +1,12 @@
 package com.example.ytshare
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -45,13 +47,16 @@ class HomeFragment : Fragment() {
         outputText = view.findViewById(R.id.output_text)
         uriText = view.findViewById(R.id.url_text)
         uriText.setText(mainActivity.sharedUri)
+
         view.findViewById<ImageView>(R.id.ip_background).setOnClickListener {
             mainActivity.replaceFragment(mainActivity.accountFragment)
         }
+
         view.findViewById<Button>(R.id.url_button).setOnClickListener{
             outputText.text = "Something is happening"
             shareRequest()
             uriText.text.clear()
+            it.hideKeyboard()
         }
     }
 
@@ -66,5 +71,10 @@ class HomeFragment : Fragment() {
 
         // Add the request to the RequestQueue.
         mainActivity.queue.add(stringRequest)
+    }
+
+    private fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 }
