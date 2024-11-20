@@ -1,0 +1,85 @@
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# .NET Core (v2.0.0+)
+!**/project.lock.json
+project.fragment.lock.json
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono auto generated files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+.vscode-test/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# Visual Studio
+.vscode/
+.vscode-test/
+.vs/
+*.dbmdl
+*.dbproj.schemaview
+*.pfx
+*.publishsettings
+*_i.c
+*_p.c
+*.cache/
+*.pdb
+*.obj
+*.exe
+*.dll
+*.appx
+*.appxupload
+*.appxbundle
+*.wapproj.schemaview
+.nuget/
+.packages
+test_coverage/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# ASP.NET temporary files
+App_Data/Logs
+App_Data/Temp
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+*.DotSettings
+
+# Rider
+.idea/
+*.sln.iml
+
+# Binaries 
+bin/
+obj/
+Properties/

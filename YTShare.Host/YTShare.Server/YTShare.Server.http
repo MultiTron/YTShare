@@ -1,0 +1,6 @@
+@YTShare.Server_HostAddress = http://localhost:5014
+
+GET {{YTShare.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
