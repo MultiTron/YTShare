@@ -37,7 +37,7 @@ public partial class MainForm : Form
         var host = Dns.GetHostEntry(Dns.GetHostName());
         foreach (var ip in host.AddressList)
         {
-            if (ip.AddressFamily == AddressFamily.InterNetwork && ip == host.AddressList[5])
+            if (ip.AddressFamily == AddressFamily.InterNetwork && ip.Equals(host.AddressList[5]))
             {
                 return ip.ToString();
             }
@@ -54,4 +54,8 @@ public partial class MainForm : Form
         }
     }
 
+    private void tsmiShow_Click(object sender, EventArgs e)
+    {
+
+    }
 }
