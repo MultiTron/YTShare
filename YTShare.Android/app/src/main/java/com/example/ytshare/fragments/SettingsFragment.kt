@@ -17,6 +17,7 @@ import com.google.zxing.integration.android.IntentResult
 class SettingsFragment : Fragment() {
 
     private lateinit var mainActivity : MainActivity
+    private lateinit var nsdHelper: NsdHelper
     private lateinit var ipText : EditText
 
     override fun onCreateView(
