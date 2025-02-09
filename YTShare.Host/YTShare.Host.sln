@@ -5,8 +5,6 @@ VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTShare.Server", "YTShare.Server\YTShare.Server.csproj", "{363D050F-DE5A-4629-A444-38643DC4A430}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "YTShare.Setup", "YTShare.Setup\YTShare.Setup.vdproj", "{3F1E3FDA-A4C1-48AF-82BF-3FCAB6822DA3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,8 +15,6 @@ Global
 		{363D050F-DE5A-4629-A444-38643DC4A430}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{363D050F-DE5A-4629-A444-38643DC4A430}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{363D050F-DE5A-4629-A444-38643DC4A430}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F1E3FDA-A4C1-48AF-82BF-3FCAB6822DA3}.Debug|Any CPU.ActiveCfg = Debug
-		{3F1E3FDA-A4C1-48AF-82BF-3FCAB6822DA3}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
