@@ -88,6 +88,14 @@ sc delete "YTShareService"
 
 ---
 
+## Releases
+
+You can find the latest releases [here](https://github.com/MultiTron/YTShare/releases).
+
+![Latest Release](https://img.shields.io/github/v/release/MultiTron/YTShare)
+
+---
+
 ## License
 YTShare is licensed under the **MIT License**. You are free to modify and distribute the application as per the license terms.
 
