@@ -1,7 +1,8 @@
-package com.example.ytshare
+package com.example.ytshare.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -15,6 +16,10 @@ import android.widget.TextView
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
+import com.example.ytshare.Constants
+import com.example.ytshare.MainActivity
+import com.example.ytshare.R
+import com.example.ytshare.helpers.SharedPrefHelper
 import org.json.JSONObject
 
 class HomeFragment : Fragment() {
@@ -42,15 +47,15 @@ class HomeFragment : Fragment() {
         mainActivity = (activity as MainActivity)
         ipText = view.findViewById(R.id.ip_text)
 
-        val ipAddress = mainActivity.sharedPref.getString("ip", "0.0.0.0")
-        baseAddress = "http://${ipAddress}:5014/Share?link="
+        val ipAddress = mainActivity.sharedPref.getString(Constants.ip, "0.0.0.0")
+        baseAddress = "http://${ipAddress}/Share?link="
         ipText.text = ipAddress
 
         progressBar = view.findViewById(R.id.progressBar)
         progressBar.visibility = View.INVISIBLE
 
         uriText = view.findViewById(R.id.url_text)
-        uriText.setText(mainActivity.sharedPref.getString("link", ""))
+        uriText.setText(modifyLink(mainActivity.sharedPref.getString(Constants.link, ""), mainActivity.sharedPref.getBoolean(Constants.isTracking, false)))
 
         view.findViewById<ImageView>(R.id.ip_background).setOnClickListener {
             mainActivity.replaceFragment(mainActivity.settingsFragment)
@@ -60,7 +65,7 @@ class HomeFragment : Fragment() {
             if(uriText.text.isNotEmpty()){
                 progressBar.visibility = View.VISIBLE
 
-                shareRequest(removeProtocol(uriText.text.toString()))
+                shareRequest(uriText.text.toString())
 
                 it.hideKeyboard()
             }
@@ -75,36 +80,45 @@ class HomeFragment : Fragment() {
                 saveLinkInfo(link)
 
                 uriText.text.clear()
-                mainActivity.clearLink()
+                SharedPrefHelper.clearLink(mainActivity.sharedPref)
                 Toast.makeText(mainActivity, response, Toast.LENGTH_LONG).show()
             },
             {
                 progressBar.visibility = View.INVISIBLE
-                Toast.makeText(mainActivity, "That didn't work!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mainActivity,
+                    getString(R.string.could_not_establish_connection_with_server),
+                    Toast.LENGTH_SHORT).show()
             })
 
-        // Add the request to the RequestQueue.
         mainActivity.queue.add(stringRequest)
     }
 
-    private fun removeProtocol(url: String): String {
-        val regex = Regex("^(https?://)")
-        return url.replace(regex, "")
+    private fun modifyLink(url: String?, isTracking: Boolean): String? {
+        val protocolRegex = Regex("""^(https?://)""")
+        val trackingRegex = Regex("""[\?&]si=[^&]+|[\?&]t=[^&]+""")
+        val remainsRegex = Regex("""[?&]$""")
+
+        val withoutProtocol = url?.replace(protocolRegex, "")
+
+        if (isTracking){
+            return withoutProtocol?.replace(trackingRegex, "")?.replace(remainsRegex, "")
+        }
+        return withoutProtocol
     }
 
     private fun saveLinkInfo(link: String){
         val stringRequest = StringRequest(
             Request.Method.GET, "https://www.youtube.com/oembed?url=${link}&format=json",
             { response ->
-                //progressBar.visibility = View.INVISIBLE
                 val json = JSONObject(response)
-                mainActivity.db.addLink(json.get("title").toString(), link, json.get("thumbnail_url").toString())
+                mainActivity.db.addLink(json.get("title").toString(),
+                    link,
+                    json.get("thumbnail_url").toString())
             },
             {
-                //progressBar.visibility = View.INVISIBLE
+                Log.e("LinkInfo", "Unable to reach YouTube Info Server...")
             })
 
-        // Add the request to the RequestQueue.
         mainActivity.queue.add(stringRequest)
     }
 

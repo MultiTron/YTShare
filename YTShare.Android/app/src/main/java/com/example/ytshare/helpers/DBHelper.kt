@@ -1,9 +1,10 @@
-package com.example.ytshare
+package com.example.ytshare.helpers
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.ytshare.models.LinkModel
 
 class DBHelper (context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {

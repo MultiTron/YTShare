@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HistoryFragment">
+    tools:context=".fragments.HistoryFragment">
     <Button
         android:id="@+id/delete_button"
         android:layout_width="match_parent"
@@ -22,6 +22,6 @@
         android:layout_marginTop="70dp"
         android:layout_marginBottom="100dp"
         tools:itemCount="15"
-        tools:listitem="@layout/card_view_design"/>
+        tools:listitem="@layout/card_view_history"/>
 
 </FrameLayout>

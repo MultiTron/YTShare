@@ -16,4 +16,7 @@
     <string name="ip_invalid">Invalid IP Address!</string>
     <string name="delete_history">Delete All!</string>
     <string name="delete_popup">Are you sure you want to delete your history?</string>
+    <string name="could_not_establish_connection_with_server">Could not establish connection with server...</string>
+    <string name="available_devices">Available Devices</string>
+    <string name="remove_tracking_from_urls">Remove Tracking from URLs</string>
 </resources>

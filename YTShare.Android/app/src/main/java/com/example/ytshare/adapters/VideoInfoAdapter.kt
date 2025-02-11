@@ -1,4 +1,4 @@
-package com.example.ytshare
+package com.example.ytshare.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,9 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ytshare.models.LinkModel
+import com.example.ytshare.R
 import com.squareup.picasso.Picasso
 
-class CustomAdapter(private var list : List<LinkModel>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class VideoInfoAdapter(private var list : List<LinkModel>) : RecyclerView.Adapter<VideoInfoAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.thumbnail)
@@ -19,7 +21,7 @@ class CustomAdapter(private var list : List<LinkModel>) : RecyclerView.Adapter<C
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.card_view_design, parent, false)
+            .inflate(R.layout.card_view_history, parent, false)
 
         return ViewHolder(view)
     }
