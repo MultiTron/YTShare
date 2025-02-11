@@ -29,9 +29,17 @@ YTShare is a mobile and desktop application that allows users to seamlessly shar
 3. Open the app and scan for available PCs.
 
 ### **Desktop App (Windows Service)**
-#### **Step 1: Install & Configure**
+#### **Step 1: Install & Configure (C# version)**
 1. Download and extract the **YTShare Desktop App**.
 2. Open a **Command Prompt (Admin)** in the extracted folder.
+
+#### **Step 1: Install & Configure (Python version)**
+1. Download and extract the **yt_share_server**.
+2. Install **pyinstaller** with **pip**.
+3. Run the following command:
+```sh
+pyinstaller --onefile --hidden-import zeroconf._utils.ipaddress --hidden-import zeroconf.asyncio --hidden-import zeroconf.ipc --hidden-import zeroconf._handlers.answers yt_share_server.py --windowed
+```
 
 #### **Step 2: Register the Windows Service**
 Run the following command to register the desktop app as a Windows Service:
