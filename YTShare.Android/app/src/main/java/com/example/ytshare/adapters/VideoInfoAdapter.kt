@@ -36,8 +36,19 @@ class VideoInfoAdapter(private var list : List<LinkModel>) : RecyclerView.Adapte
         notifyItemRangeRemoved(0, size)
     }
 
+    fun ascSort() {
+        list = list.sortedBy { item -> item.date }
+        notifyDataSetChanged()
+    }
+
+    fun descSort() {
+        list = list.sortedByDescending { item -> item.date }
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
+
         Picasso.get().load(item.thumbnail).into(holder.imageView)
         holder.titleView.text = item.title
         holder.linkView.text = item.link

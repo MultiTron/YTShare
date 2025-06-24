@@ -30,9 +30,11 @@ class NSDHelper(context: Context) {
                             val hosts = resolvedService.hostAddresses
                             val port = resolvedService.port
 
+                            val hostname = resolvedService.attributes["hostname"]?.decodeToString() ?: "Unknown"
+
                             hosts.forEach {
                                 host -> if (isValidIPv4WithPort(host.hostAddress)) {
-                                    addresses.add(HostModel(host.hostAddress, host.hostName, port))
+                                    addresses.add(HostModel(host.hostAddress, hostname, port))
                                 }
                             }
                         }

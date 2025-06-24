@@ -1,41 +1,59 @@
 package com.example.ytshare.helpers
 
 import android.content.SharedPreferences
-import android.net.Uri
 import com.example.ytshare.Constants
+import androidx.core.content.edit
+import androidx.core.net.toUri
 
 object SharedPrefHelper {
-    public fun saveLink(text:String, sharedPref: SharedPreferences){
-        val link = Uri.parse(text)
+    fun saveLink(text:String, sharedPref: SharedPreferences){
+        val link = text.toUri()
         if (link.host.toString().contains("youtube.com") || link.host.toString().contains("youtu.be")) {
-            val editor = sharedPref.edit()
-            editor.putString(Constants.link, text).apply()
+            sharedPref.edit {
+                putString(Constants.link, text)
+            }
         }
     }
 
-    public fun clearLink(sharedPref: SharedPreferences) {
-        val editor = sharedPref.edit()
-        editor.remove(Constants.link).apply()
+    fun clearLink(sharedPref: SharedPreferences) {
+        sharedPref.edit {
+            remove(Constants.link)
+        }
     }
 
-    public fun saveIp(text:String, sharedPref: SharedPreferences){
-        val editor = sharedPref.edit()
-        editor.putString(Constants.ip, text)
-        editor.apply()
+    fun saveIp(text:String, sharedPref: SharedPreferences){
+        sharedPref.edit {
+            putString(Constants.ip, text)
+        }
     }
 
-    public fun clearIp(sharedPref: SharedPreferences) {
-        val editor = sharedPref.edit()
-        editor.remove(Constants.ip).apply()
+    fun clearIp(sharedPref: SharedPreferences) {
+        sharedPref.edit {
+            remove(Constants.ip)
+        }
     }
 
-    public fun savePref(isTracking:Boolean, sharedPref: SharedPreferences){
-        val editor = sharedPref.edit()
-        editor.putBoolean(Constants.isTracking, isTracking).apply()
+    fun saveSort(isHistoryDesc:Boolean, sharedPref: SharedPreferences) {
+        sharedPref.edit {
+            putBoolean(Constants.isHistoryDesc, isHistoryDesc)
+        }
     }
 
-    public fun clearPref(sharedPref: SharedPreferences) {
-        val editor = sharedPref.edit()
-        editor.remove(Constants.isTracking).apply()
+    fun clearSort(sharedPref: SharedPreferences) {
+        sharedPref.edit {
+            remove(Constants.isHistoryDesc)
+        }
+    }
+
+    fun savePref(isTracking:Boolean, sharedPref: SharedPreferences){
+        sharedPref.edit {
+            putBoolean(Constants.isTracking, isTracking)
+        }
+    }
+
+    fun clearPref(sharedPref: SharedPreferences) {
+        sharedPref.edit {
+            remove(Constants.isTracking)
+        }
     }
 }

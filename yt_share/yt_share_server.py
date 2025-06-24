@@ -1,4 +1,5 @@
 import http.server
+import re
 import socketserver
 import webbrowser
 import socket
@@ -30,14 +31,33 @@ class BonjourService:
         self.port = port
         self.zeroconf = Zeroconf()
         self.register()
+
+    ipv4_regex = re.compile(r'^(25[0-5]|2[0-4][0-9]|1?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|1?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|1?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|1?[0-9][0-9]?)$')
+
+    def is_valid_ipv4(self, ip):
+        return bool(self.ipv4_regex.match(ip))
+
+    def get_all_ip_addresses(self):
+        host_name = socket.gethostname()
+        addresses = set()
+    
+        # Get all IPs associated with the host
+        for info in socket.getaddrinfo(host_name, None):
+            ip = info[4][0]
+            if self.is_valid_ipv4(ip):  # Exclude loopback
+                addresses.add(socket.inet_aton(ip))
+    
+        return list(addresses)
     
     def register(self):
         service_info = ServiceInfo(
             self.regtype,
             f"{self.name}.{self.regtype}",
-            addresses=[socket.inet_aton(socket.gethostbyname(socket.gethostname()))],
+            addresses=self.get_all_ip_addresses(),
             port=self.port,
-            properties={}
+            properties={"hostname": socket.getfqdn()},
+            server=socket.gethostname(),
+            interface_index=0
         )
         self.zeroconf.register_service(service_info)
         print(f"Service registered: {self.name}.{self.regtype}")
