@@ -19,7 +19,7 @@ class NSDHelper(context: Context) {
             override fun onDiscoveryStarted(serviceType: String) {
                 Log.d("NSD", "Service discovery started")
             }
-
+            // TODO always look for new services
             override fun onServiceFound(service: NsdServiceInfo) {
                 Log.d("NSD", "Service found: $service")
                 if (service.serviceType == serviceType) {
@@ -45,7 +45,7 @@ class NSDHelper(context: Context) {
                     })
                 }
             }
-
+            // TODO remove lost services
             override fun onServiceLost(service: NsdServiceInfo) {
                 Log.e("NSD", "Service lost: $service")
             }
