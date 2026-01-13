@@ -1,0 +1,278 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1768335263961-1
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: chat_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: UUID
+            tableName: chat_participants
+  - changeSet:
+      id: 1768335263961-2
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_chats
+                  name: id
+                  type: UUID
+              - column:
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: updated_at
+                  type: DATETIME
+            tableName: chats
+  - changeSet:
+      id: 1768335263961-3
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_friendships
+                  name: id
+                  type: UUID
+              - column:
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: updated_at
+                  type: DATETIME
+              - column:
+                  name: user_id
+                  type: UUID
+              - column:
+                  name: friend_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(255)
+            tableName: friendships
+  - changeSet:
+      id: 1768335263961-4
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_messages
+                  name: id
+                  type: UUID
+              - column:
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: updated_at
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: content
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: chat_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: sender_id
+                  type: UUID
+            tableName: messages
+  - changeSet:
+      id: 1768335263961-5
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_users
+                  name: id
+                  type: UUID
+              - column:
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: updated_at
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: firebase_uid
+                  type: VARCHAR(128)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email
+                  type: VARCHAR(128)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: first_name
+                  type: VARCHAR(128)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: last_name
+                  type: VARCHAR(128)
+            tableName: users
+  - changeSet:
+      id: 1768335263961-6
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_videos
+                  name: id
+                  type: UUID
+              - column:
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: updated_at
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: title
+                  type: VARCHAR(128)
+              - column:
+                  name: description
+                  type: VARCHAR(1024)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: url
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: thumbnail_url
+                  type: VARCHAR(255)
+            tableName: videos
+  - changeSet:
+      id: 1768335263961-7
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: email
+            constraintName: uc_users_email
+            tableName: users
+  - changeSet:
+      id: 1768335263961-8
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: firebase_uid
+            constraintName: uc_users_firebaseuid
+            tableName: users
+  - changeSet:
+      id: 1768335263961-9
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: friend_id
+            baseTableName: friendships
+            constraintName: FK_FRIENDSHIPS_ON_FRIEND
+            referencedColumnNames: id
+            referencedTableName: users
+  - changeSet:
+      id: 1768335263961-10
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: friendships
+            constraintName: FK_FRIENDSHIPS_ON_USER
+            referencedColumnNames: id
+            referencedTableName: users
+  - changeSet:
+      id: 1768335263961-11
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: chat_id
+            baseTableName: messages
+            constraintName: FK_MESSAGES_ON_CHAT
+            referencedColumnNames: id
+            referencedTableName: chats
+  - changeSet:
+      id: 1768335263961-12
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: sender_id
+            baseTableName: messages
+            constraintName: FK_MESSAGES_ON_SENDER
+            referencedColumnNames: id
+            referencedTableName: users
+  - changeSet:
+      id: 1768335263961-13
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: chat_id
+            baseTableName: chat_participants
+            constraintName: fk_chapar_on_chat
+            referencedColumnNames: id
+            referencedTableName: chats
+  - changeSet:
+      id: 1768335263961-14
+      author: Ivaylo.Iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: chat_participants
+            constraintName: fk_chapar_on_user
+            referencedColumnNames: id
+            referencedTableName: users
+

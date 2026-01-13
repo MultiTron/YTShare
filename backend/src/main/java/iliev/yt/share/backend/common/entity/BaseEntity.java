@@ -6,7 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.MappedSuperclass;
 import java.util.Date;
 import java.util.UUID;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import jakarta.persistence.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,7 +18,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import static jakarta.persistence.GenerationType.UUID;
 
-@Data
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {

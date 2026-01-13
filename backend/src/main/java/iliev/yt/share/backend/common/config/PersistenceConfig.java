@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages = "iliev.yt.share.backend")
 @EnableTransactionManagement
 @EnableJpaAuditing
 public class PersistenceConfig {
