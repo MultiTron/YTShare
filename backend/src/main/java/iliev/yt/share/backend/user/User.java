@@ -1,8 +1,10 @@
 package iliev.yt.share.backend.user;
 
 import iliev.yt.share.backend.common.entity.BaseEntity;
+import iliev.yt.share.backend.user.preferences.UserPreferences;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,4 +31,7 @@ public class User extends BaseEntity {
 
     @Column(nullable = false, length = 128)
     private String lastName;
+
+    @OneToOne(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL)
+    private UserPreferences userPreferences;
 }

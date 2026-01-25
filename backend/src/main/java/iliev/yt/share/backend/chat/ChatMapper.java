@@ -5,9 +5,8 @@ import iliev.yt.share.backend.chat.dto.ChatOutputDto;
 import iliev.yt.share.backend.user.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {UserMapper.class})
+@Mapper(uses = {UserMapper.class})
 public interface ChatMapper {
     @Mapping(target = "participants", source = "participants")
     ChatOutputDto toOutputDto(final Chat chat);

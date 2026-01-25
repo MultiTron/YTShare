@@ -1,5 +1,6 @@
 package iliev.yt.share.backend.user.dto;
 
+import iliev.yt.share.backend.user.preferences.dto.UserPreferencesOutputDto;
 import java.util.UUID;
 
 public record UserOutputDto(
@@ -7,6 +8,7 @@ public record UserOutputDto(
         String firebaseUid,
         String email,
         String firstName,
-        String lastName
+        String lastName,
+        UserPreferencesOutputDto userPreferences
 ) {
 }

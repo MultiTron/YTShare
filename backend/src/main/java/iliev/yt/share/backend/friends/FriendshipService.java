@@ -58,7 +58,8 @@ public class FriendshipService {
     public FriendshipOutputDto updateFriendshipStatus(final FriendshipStatusUpdateDto updateDto) {
         final Friendship friendship = friendshipRepository.findById(updateDto.id())
                 .orElseThrow(() -> new FriendshipNotFoundException(updateDto.id()));
-        friendship.setStatus(updateDto.status());
+
+        friendshipMapper.updateStatus(updateDto, friendship);
 
         return friendshipMapper.toOutputDto(friendship);
     }

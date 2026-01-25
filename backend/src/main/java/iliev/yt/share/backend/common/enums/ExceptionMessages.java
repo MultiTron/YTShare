@@ -14,7 +14,9 @@ public enum ExceptionMessages {
     VIDEO_NOT_FOUND("Video not found with id: %s"),
     CHAT_NOT_FOUND("Chat not found with id: %s"),
     CHAT_PARTICIPANTS_NOT_FOUND("One or more participants not found"),
-    MESSAGE_NOT_FOUND("Message not found with id: %s");
+    MESSAGE_NOT_FOUND("Message not found with id: %s"),
+    USER_PREFERENCES_NOT_FOUND("User preferences not found with id: %s"),
+    DEVICE_NOT_FOUND("Device not found with id: %s");
 
     private final String message;
 
