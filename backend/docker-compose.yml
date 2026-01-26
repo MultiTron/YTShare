@@ -33,6 +33,7 @@ services:
       DB_NAME: ${DB_NAME:-ytshare}
       DB_USERNAME: ${DB_USERNAME:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      FIREBASE_CREDENTIALS_JSON: ${FIREBASE_CREDENTIALS_JSON}
     ports:
       - "8080:8080"
     depends_on:

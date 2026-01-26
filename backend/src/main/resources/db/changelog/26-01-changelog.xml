@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-5.0.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1769433076872-1" author="iliev">
+        <createTable tableName="devices">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_devices"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+            <column name="updated_at" type="DATETIME"/>
+            <column name="host_name" type="VARCHAR(255)"/>
+            <column name="ip_address" type="VARCHAR(255)"/>
+            <column name="port" type="VARCHAR(255)"/>
+            <column name="last_connected_to" type="DATETIME"/>
+            <column name="user_preferences_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1769433076872-2" author="iliev">
+        <createTable tableName="user_prefs">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user_prefs"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+            <column name="updated_at" type="DATETIME"/>
+            <column name="dark_mode" type="BOOLEAN"/>
+            <column name="notifications" type="BOOLEAN"/>
+            <column name="tracking" type="BOOLEAN"/>
+            <column name="user_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1769433076872-3" author="iliev">
+        <addUniqueConstraint columnNames="user_id" constraintName="uc_user_prefs_user" tableName="user_prefs"/>
+    </changeSet>
+    <changeSet id="1769433076872-4" author="iliev">
+        <addForeignKeyConstraint baseColumnNames="user_preferences_id" baseTableName="devices"
+                                 constraintName="FK_DEVICES_ON_USERPREFERENCES" referencedColumnNames="id"
+                                 referencedTableName="user_prefs"/>
+    </changeSet>
+    <changeSet id="1769433076872-5" author="iliev">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_prefs"
+                                 constraintName="FK_USER_PREFS_ON_USER" referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+
+</databaseChangeLog>
