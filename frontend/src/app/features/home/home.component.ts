@@ -132,7 +132,7 @@ export class HomeComponent {
     this.isLoggingOut = true;
     this.authService.logout().subscribe({
       next: () => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
       },
       error: () => {
         this.isLoggingOut = false;
