@@ -344,7 +344,7 @@ export class RegisterComponent {
       })
     ).subscribe({
       next: () => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/chats']);
       },
       error: (err) => {
         this.isSubmitting.set(false);

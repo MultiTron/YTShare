@@ -10,12 +10,31 @@ export interface UserInput {
   lastName: string;
 }
 
+export interface DeviceOutput {
+  id: string;
+  hostName: string;
+  ipAddress: string;
+  port: string;
+  lastConnectedTo: string | null;
+  userPreferencesId: string;
+}
+
+export interface UserPreferencesOutput {
+  id: string;
+  darkMode: boolean;
+  notificationsEnabled: boolean;
+  trackingEnabled: boolean;
+  userId: string;
+  devices: DeviceOutput[];
+}
+
 export interface UserOutput {
   id: string;
   firebaseUid: string;
   email: string;
   firstName: string;
   lastName: string;
+  userPreferences: UserPreferencesOutput | null;
 }
 
 @Injectable({

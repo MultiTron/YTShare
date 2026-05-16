@@ -12,6 +12,16 @@ export const routes: Routes = [
     loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
   },
   {
+    path: 'chats',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/chat/chat-page.component').then(m => m.ChatPageComponent)
+  },
+  {
+    path: 'devices',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/devices/devices-page.component').then(m => m.DevicesPageComponent)
+  },
+  {
     path: 'login',
     canActivate: [guestGuard],
     loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)

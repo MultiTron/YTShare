@@ -43,7 +43,7 @@ public class FriendshipService {
     }
 
     public List<FriendshipOutputDto> getFriendshipsByUserIdAndStatus(final UUID userId, final FriendshipStatus status) {
-        return friendshipRepository.findByUserIdAndStatus(userId, status).stream()
+        return friendshipRepository.findByUserIdOrFriendIdAndStatus(userId, status).stream()
                 .map(friendshipMapper::toOutputDto).toList();
     }
 
