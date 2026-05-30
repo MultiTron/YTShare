@@ -46,8 +46,7 @@ export class HistoryPageComponent implements OnInit {
     }
     this.filteredVideos.set(
       this.videos().filter(v =>
-        v.title.toLowerCase().includes(q) ||
-        v.description?.toLowerCase().includes(q)
+        v.title.toLowerCase().includes(q)
       )
     );
   }
