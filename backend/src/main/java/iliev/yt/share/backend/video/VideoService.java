@@ -48,4 +48,9 @@ public class VideoService {
         }
         videoRepository.deleteById(id);
     }
+
+    @Transactional
+    public void deleteAllVideos() {
+        videoRepository.deleteAll();
+    }
 }
