@@ -22,6 +22,16 @@ export const routes: Routes = [
     loadComponent: () => import('./features/devices/devices-page.component').then(m => m.DevicesPageComponent)
   },
   {
+    path: 'history',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/history/history-page.component').then(m => m.HistoryPageComponent)
+  },
+  {
+    path: 'settings',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/settings/settings-page.component').then(m => m.SettingsPageComponent)
+  },
+  {
     path: 'login',
     canActivate: [guestGuard],
     loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)

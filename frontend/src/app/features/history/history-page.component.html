@@ -1,0 +1,115 @@
+<div class="history-layout">
+  <nav class="topnav">
+    <div class="topnav-inner">
+      <a routerLink="/" class="logo">
+        <span class="logo-icon">&#9654;</span>
+        YTShare
+      </a>
+      <div class="nav-links">
+        <a routerLink="/chats" class="nav-link">Chats</a>
+        <a routerLink="/devices" class="nav-link">Devices</a>
+        <a routerLink="/history" class="nav-link active">History</a>
+        <a routerLink="/settings" class="nav-link">Settings</a>
+        <button class="btn-icon-only" (click)="logout()" title="Sign out">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="content">
+    <div class="page-header">
+      <div>
+        <h1>Watch History</h1>
+        <p class="page-subtitle">Videos shared through YTShare.</p>
+      </div>
+    </div>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input
+        type="text"
+        placeholder="Search videos..."
+        [value]="searchQuery()"
+        (input)="searchQuery.set($any($event.target).value); onSearch()"
+      />
+    </div>
+
+    @if (loading()) {
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+    } @else {
+      @if (filteredVideos().length > 0) {
+        <div class="video-list">
+          @for (video of filteredVideos(); track video.id) {
+            <div class="video-card" (click)="openVideo(video)" (keydown.enter)="openVideo(video)">
+              <div class="video-thumbnail">
+                @if (getThumbnail(video)) {
+                  <img [src]="getThumbnail(video)" [alt]="video.title" />
+                } @else {
+                  <div class="thumbnail-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                  </div>
+                }
+                <div class="play-overlay">
+                  <svg viewBox="0 0 24 24" fill="white">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="video-info">
+                <h3 class="video-title">{{ video.title }}</h3>
+                @if (video.description) {
+                  <p class="video-description">{{ video.description }}</p>
+                }
+                <span class="video-url">{{ video.url }}</span>
+              </div>
+              <button
+                class="btn-delete"
+                (click)="deleteVideo(video, $event)"
+                title="Remove from history"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                </svg>
+              </button>
+            </div>
+          }
+        </div>
+      } @else if (searchQuery()) {
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <h2>No results</h2>
+          <p>No videos match "{{ searchQuery() }}".</p>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <h2>No videos yet</h2>
+          <p>Videos shared through YTShare will appear here.</p>
+        </div>
+      }
+    }
+  </div>
+</div>
