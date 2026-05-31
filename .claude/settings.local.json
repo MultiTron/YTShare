@@ -20,7 +20,16 @@
       "PowerShell(New-Item *)",
       "Bash(git rm *)",
       "Bash(git log *)",
-      "PowerShell(git rm *)"
+      "PowerShell(git rm *)",
+      "Bash(bash *)",
+      "PowerShell(head *)",
+      "PowerShell(if \\(-not \\(Test-Path \"C:\\\\Users\\\\iliev\\\\Desktop\\\\YTShare\\\\docs\\\\superpowers\\\\plans\"\\)\\) { New-Item -ItemType Directory -Force \"C:\\\\Users\\\\iliev\\\\Desktop\\\\YTShare\\\\docs\\\\superpowers\\\\plans\" })",
+      "Bash(dir C:\\\\Users\\\\iliev\\\\Desktop\\\\YTShare\\\\backend\\\\src\\\\main\\\\resources\\\\db\\\\changelog\\\\ *)",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\iliev\\\\Desktop\\\\YTShare\\\\YTShare.Android\\\\app\\\\src\\\\main\\\\java\\\\com\\\\example\\\\ytshare\\\\fcm\")",
+      "Bash(Out-Null)",
+      "Bash(.\\\\mvnw compile *)"
     ]
   }
 }
