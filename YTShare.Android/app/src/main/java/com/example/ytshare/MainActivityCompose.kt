@@ -1,10 +1,9 @@
 package com.example.ytshare
 
-import android.content.Context
-import android.util.Log
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -32,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -41,11 +41,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
-import com.example.ytshare.helpers.DBHelper
-import com.example.ytshare.helpers.NSDHelper
-import com.example.ytshare.helpers.SharedPrefHelper
 import com.example.ytshare.data.remote.StompSessionManager
 import com.example.ytshare.data.repository.ChatRepository
+import com.example.ytshare.helpers.NSDHelper
+import com.example.ytshare.helpers.SharedPrefHelper
 import com.example.ytshare.ui.screens.HomeScreen
 import com.example.ytshare.ui.screens.SettingsScreen
 import com.example.ytshare.ui.screens.auth.AuthViewModel
@@ -59,22 +58,19 @@ import com.example.ytshare.ui.screens.history.HistoryViewModel
 import com.example.ytshare.ui.theme.YTShareTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.koinViewModel
 
 class MainActivityCompose : ComponentActivity() {
 
+    private val nsd: NSDHelper by inject()
+    private val sharedPref: SharedPreferences by inject()
     lateinit var queue: RequestQueue
-    lateinit var sharedPref: SharedPreferences
-    lateinit var db: DBHelper
-    lateinit var nsd: NSDHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        initializeNSD()
-        db = DBHelper(this, null)
-        sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         queue = Volley.newRequestQueue(this)
 
         when {
@@ -97,6 +93,16 @@ class MainActivityCompose : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        nsd.startDiscovery()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        nsd.stopDiscovery()
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -123,7 +129,15 @@ class MainActivityCompose : ComponentActivity() {
         var ipAddress by remember { mutableStateOf(sharedPref.getString(Constants.ip, "0.0.0.0") ?: "0.0.0.0") }
         var savedLink by remember { mutableStateOf(sharedPref.getString(Constants.link, "")) }
         var isTracking by remember { mutableStateOf(sharedPref.getBoolean(Constants.isTracking, false)) }
-        var hosts by remember { mutableStateOf(nsd.addresses) }
+
+        val hosts by nsd.hosts.collectAsState()
+        LaunchedEffect(hosts) {
+            if (ipAddress == "0.0.0.0" && hosts.isNotEmpty()) {
+                val host = hosts.first()
+                SharedPrefHelper.saveIp(host.toString(), sharedPref)
+                ipAddress = host.toString()
+            }
+        }
 
         Scaffold(
             bottomBar = {
@@ -174,7 +188,6 @@ class MainActivityCompose : ComponentActivity() {
                         ipAddress = ipAddress,
                         isTracking = isTracking,
                         queue = queue,
-                        db = db,
                         onNavigateToSettings = {
                             navController.navigate("settings") {
                                 popUpTo(navController.graph.findStartDestination().id) {
@@ -197,21 +210,9 @@ class MainActivityCompose : ComponentActivity() {
                 }
 
                 composable("settings") {
-                    LaunchedEffect(Unit) {
-                        hosts = nsd.addresses
-                    }
-
                     SettingsScreen(
-                        hosts = hosts,
-                        isTrackingEnabled = isTracking,
-                        onHostSelected = { host ->
-                            val hostString = host.toString()
-                            SharedPrefHelper.saveIp(hostString, sharedPref)
-                            ipAddress = hostString
-                        },
-                        onTrackingChanged = { enabled ->
-                            isTracking = enabled
-                            SharedPrefHelper.savePref(enabled, sharedPref)
+                        onIpChanged = { newIp ->
+                            ipAddress = newIp
                         }
                     )
                 }
@@ -252,20 +253,6 @@ class MainActivityCompose : ComponentActivity() {
                         onBack = { navController.popBackStack() }
                     )
                 }
-            }
-        }
-    }
-
-    private fun initializeNSD() {
-        nsd = NSDHelper(this)
-        nsd.discoverServices()
-
-        if (nsd.addresses.isNotEmpty()) {
-            val host = nsd.addresses.first()
-            if (host.address.isNotEmpty()) {
-                SharedPrefHelper.saveIp(host.toString(), sharedPref)
-            } else {
-                SharedPrefHelper.clearIp(sharedPref)
             }
         }
     }
