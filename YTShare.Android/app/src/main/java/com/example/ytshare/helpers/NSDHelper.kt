@@ -24,6 +24,7 @@ class NSDHelper(private val context: Context) {
     val hosts: StateFlow<List<HostModel>> = _hosts.asStateFlow()
 
     private var discoveryListener: NsdManager.DiscoveryListener? = null
+    private var pendingRestart = false
 
     fun startDiscovery() {
         if (discoveryListener != null) return
@@ -49,14 +50,22 @@ class NSDHelper(private val context: Context) {
 
             override fun onDiscoveryStopped(serviceType: String) {
                 Log.d(TAG, "Service discovery stopped")
+                discoveryListener = null
+                if (pendingRestart) {
+                    pendingRestart = false
+                    _hosts.value = emptyList()
+                    startDiscovery()
+                }
             }
 
             override fun onStartDiscoveryFailed(serviceType: String, errorCode: Int) {
                 Log.e(TAG, "Start discovery failed with error code $errorCode")
+                discoveryListener = null
             }
 
             override fun onStopDiscoveryFailed(serviceType: String, errorCode: Int) {
                 Log.e(TAG, "Stop discovery failed with error code $errorCode")
+                discoveryListener = null
             }
         }
 
@@ -65,19 +74,32 @@ class NSDHelper(private val context: Context) {
     }
 
     fun restartDiscovery() {
-        stopDiscovery()
-        _hosts.value = emptyList()
-        startDiscovery()
+        if (discoveryListener != null) {
+            pendingRestart = true
+            try {
+                nsdManager.stopServiceDiscovery(discoveryListener)
+            } catch (e: IllegalArgumentException) {
+                Log.w(TAG, "Discovery already stopped", e)
+                discoveryListener = null
+                pendingRestart = false
+                _hosts.value = emptyList()
+                startDiscovery()
+            }
+        } else {
+            _hosts.value = emptyList()
+            startDiscovery()
+        }
     }
 
     fun stopDiscovery() {
+        pendingRestart = false
         discoveryListener?.let {
             try {
                 nsdManager.stopServiceDiscovery(it)
             } catch (e: IllegalArgumentException) {
                 Log.w(TAG, "Discovery already stopped", e)
+                discoveryListener = null
             }
-            discoveryListener = null
         }
     }
 
