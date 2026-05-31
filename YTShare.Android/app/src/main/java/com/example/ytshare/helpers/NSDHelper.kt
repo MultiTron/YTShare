@@ -73,7 +73,6 @@ class NSDHelper(private val context: Context) {
             }
             discoveryListener = null
         }
-        _hosts.value = emptyList()
     }
 
     private fun createResolveListener(): NsdManager.ResolveListener {
