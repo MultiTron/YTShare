@@ -19,8 +19,10 @@
     "@angular/platform-browser": "^20.3.18",
     "@angular/platform-browser-dynamic": "^20.3.18",
     "@angular/router": "^20.3.18",
+    "@stomp/stompjs": "^7.3.0",
     "firebase": "^11.0.0",
     "rxjs": "~7.8.0",
+    "sockjs-client": "^1.6.1",
     "tslib": "^2.6.0",
     "zone.js": "~0.15.0"
   },
@@ -29,6 +31,7 @@
     "@angular/cli": "^20.3.23",
     "@angular/compiler-cli": "^20.3.18",
     "@types/node": "^22.0.0",
+    "@types/sockjs-client": "^1.5.4",
     "typescript": "~5.8.0"
   }
 }

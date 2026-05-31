@@ -1,6 +1,7 @@
 package com.example.ytshare
 
 import android.content.Context
+import android.util.Log
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -10,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
@@ -31,22 +33,32 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.example.ytshare.helpers.DBHelper
 import com.example.ytshare.helpers.NSDHelper
 import com.example.ytshare.helpers.SharedPrefHelper
+import com.example.ytshare.data.remote.StompSessionManager
+import com.example.ytshare.data.repository.ChatRepository
 import com.example.ytshare.ui.screens.HomeScreen
 import com.example.ytshare.ui.screens.SettingsScreen
 import com.example.ytshare.ui.screens.auth.AuthViewModel
 import com.example.ytshare.ui.screens.auth.LoginScreen
+import com.example.ytshare.ui.screens.chat.ConversationScreen
+import com.example.ytshare.ui.screens.chat.ConversationViewModel
+import com.example.ytshare.ui.screens.chat.FriendsScreen
+import com.example.ytshare.ui.screens.chat.FriendsViewModel
 import com.example.ytshare.ui.screens.history.HistoryScreen
 import com.example.ytshare.ui.screens.history.HistoryViewModel
 import com.example.ytshare.ui.theme.YTShareTheme
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 class MainActivityCompose : ComponentActivity() {
@@ -87,11 +99,26 @@ class MainActivityCompose : ComponentActivity() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     @Composable
     fun MainScreen(authViewModel: AuthViewModel) {
         val navController = rememberNavController()
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
+
+        val stompManager: StompSessionManager = org.koin.compose.koinInject()
+        val chatRepo: ChatRepository = org.koin.compose.koinInject()
+
+        LaunchedEffect(Unit) {
+            stompManager.connect()
+            try {
+                com.google.firebase.messaging.FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                    kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                        try { chatRepo.registerDeviceToken(token) } catch (e: Exception) { Log.w("FCM", "Failed to register device token", e) }
+                    }
+                }
+            } catch (e: Exception) { Log.w("FCM", "Failed to get FCM token", e) }
+        }
 
         var ipAddress by remember { mutableStateOf(sharedPref.getString(Constants.ip, "0.0.0.0") ?: "0.0.0.0") }
         var savedLink by remember { mutableStateOf(sharedPref.getString(Constants.link, "")) }
@@ -100,7 +127,7 @@ class MainActivityCompose : ComponentActivity() {
 
         Scaffold(
             bottomBar = {
-                NavigationBar(
+                if (currentRoute?.startsWith("conversation") != true) NavigationBar(
                     containerColor = Color.Red,
                     contentColor = Color.White
                 ) {
@@ -188,6 +215,43 @@ class MainActivityCompose : ComponentActivity() {
                         }
                     )
                 }
+
+                composable("friends") {
+                    val friendsViewModel: FriendsViewModel = koinViewModel()
+                    FriendsScreen(
+                        viewModel = friendsViewModel,
+                        onFriendClick = { friendUserId ->
+                            val friendship = friendsViewModel.friends.value.find { f ->
+                                friendsViewModel.getFriendUser(f).id == friendUserId
+                            }
+                            val friendUser = friendship?.let { friendsViewModel.getFriendUser(it) }
+                            val firstName = friendUser?.firstName ?: ""
+                            val lastName = friendUser?.lastName ?: ""
+                            navController.navigate("conversation/$friendUserId/$firstName/$lastName")
+                        }
+                    )
+                }
+
+                composable(
+                    route = "conversation/{friendId}/{firstName}/{lastName}",
+                    arguments = listOf(
+                        navArgument("friendId") { type = NavType.StringType },
+                        navArgument("firstName") { type = NavType.StringType },
+                        navArgument("lastName") { type = NavType.StringType }
+                    )
+                ) { backStackEntry ->
+                    val friendId = backStackEntry.arguments?.getString("friendId") ?: return@composable
+                    val firstName = backStackEntry.arguments?.getString("firstName") ?: ""
+                    val lastName = backStackEntry.arguments?.getString("lastName") ?: ""
+                    val conversationViewModel: ConversationViewModel = koinViewModel()
+                    ConversationScreen(
+                        viewModel = conversationViewModel,
+                        friendId = friendId,
+                        friendFirstName = firstName,
+                        friendLastName = lastName,
+                        onBack = { navController.popBackStack() }
+                    )
+                }
             }
         }
     }
@@ -222,5 +286,6 @@ data class BottomNavItem(
 val bottomNavItems = listOf(
     BottomNavItem("home", Icons.Filled.Home, "Home"),
     BottomNavItem("history", Icons.Filled.History, "History"),
+    BottomNavItem("friends", Icons.AutoMirrored.Filled.Chat, "Chat"),
     BottomNavItem("settings", Icons.Filled.Settings, "Settings")
 )

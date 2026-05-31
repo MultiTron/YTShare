@@ -48,6 +48,11 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
+    @GetMapping("/me")
+    public UserOutputDto getCurrentUser() {
+        return userService.getCurrentUser();
+    }
+
     @PostMapping
     public UserOutputDto createUser(@RequestBody final UserInputDto inputDto) {
         return userService.createUser(inputDto);

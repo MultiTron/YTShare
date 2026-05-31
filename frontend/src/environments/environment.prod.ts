@@ -8,5 +8,6 @@ export const environment = {
     messagingSenderId: 'YOUR_SENDER_ID',
     appId: 'YOUR_APP_ID'
   },
-  apiUrl: 'https://your-production-api.com'
+  apiUrl: 'https://your-production-api.com',
+  wsUrl: 'http://localhost:8080/ws'
 };
