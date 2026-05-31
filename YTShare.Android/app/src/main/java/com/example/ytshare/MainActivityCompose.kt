@@ -1,6 +1,7 @@
 package com.example.ytshare
 
 import android.content.Context
+import android.util.Log
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -10,7 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
@@ -56,6 +57,8 @@ import com.example.ytshare.ui.screens.chat.FriendsViewModel
 import com.example.ytshare.ui.screens.history.HistoryScreen
 import com.example.ytshare.ui.screens.history.HistoryViewModel
 import com.example.ytshare.ui.theme.YTShareTheme
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 class MainActivityCompose : ComponentActivity() {
@@ -96,6 +99,7 @@ class MainActivityCompose : ComponentActivity() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     @Composable
     fun MainScreen(authViewModel: AuthViewModel) {
         val navController = rememberNavController()
@@ -110,10 +114,10 @@ class MainActivityCompose : ComponentActivity() {
             try {
                 com.google.firebase.messaging.FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
                     kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
-                        try { chatRepo.registerDeviceToken(token) } catch (_: Exception) {}
+                        try { chatRepo.registerDeviceToken(token) } catch (e: Exception) { Log.w("FCM", "Failed to register device token", e) }
                     }
                 }
-            } catch (_: Exception) {}
+            } catch (e: Exception) { Log.w("FCM", "Failed to get FCM token", e) }
         }
 
         var ipAddress by remember { mutableStateOf(sharedPref.getString(Constants.ip, "0.0.0.0") ?: "0.0.0.0") }
@@ -282,6 +286,6 @@ data class BottomNavItem(
 val bottomNavItems = listOf(
     BottomNavItem("home", Icons.Filled.Home, "Home"),
     BottomNavItem("history", Icons.Filled.History, "History"),
-    BottomNavItem("friends", Icons.Filled.Chat, "Chat"),
+    BottomNavItem("friends", Icons.AutoMirrored.Filled.Chat, "Chat"),
     BottomNavItem("settings", Icons.Filled.Settings, "Settings")
 )

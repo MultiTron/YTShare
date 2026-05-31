@@ -1,5 +1,6 @@
 package com.example.ytshare.fcm
 
+import android.util.Log
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -27,7 +28,7 @@ class YTShareFirebaseMessagingService : FirebaseMessagingService() {
         scope.launch {
             try {
                 chatRepository.registerDeviceToken(token)
-            } catch (_: Exception) {}
+            } catch (e: Exception) { Log.w("FCM", "Failed to register device token", e) }
         }
     }
 
