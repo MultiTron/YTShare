@@ -2,13 +2,13 @@
 
 ## Overview
 
-Add a chat feature to the Android app, consisting of a Friends screen (friend list, add/accept/reject requests) and a Conversation screen (messaging with a friend). Uses the existing backend Chat, Message, and Friendship REST APIs. Network-only — no local Room caching for chat data. Includes Firebase Cloud Messaging (FCM) push notifications for background message delivery.
+Add a chat feature to the Android app, consisting of a Friends screen (friend list, add/accept/reject requests) and a Conversation screen (messaging with a friend). Uses the existing backend Chat, Message, and Friendship REST APIs. Network-only — no local Room caching for chat data. Real-time messaging via WebSocket/STOMP. Includes Firebase Cloud Messaging (FCM) push notifications for background message delivery.
 
 ## Goals
 
 - Add a "Chat" tab to the bottom navigation bar
 - Friends screen as the hub: friend list, pending requests, add friend by email
-- Conversation screen: message bubbles, 3-second polling, send messages
+- Conversation screen: message bubbles, real-time delivery via WebSocket/STOMP, send messages
 - FCM push notifications for new messages when the app is backgrounded
 - Reuse existing Ktor HttpClient with Firebase auth token injection
 - Follow existing app patterns (Koin DI, Compose + MD3, MVVM)
@@ -17,7 +17,7 @@ Add a chat feature to the Android app, consisting of a Friends screen (friend li
 
 - Local Room caching for chat/friendship data (network-only)
 - Offline message queue or sync
-- WebSocket/STOMP real-time transport (backend doesn't support it)
+- WebSocket fallback to polling (if STOMP connection fails, chat is unavailable until reconnect)
 - Group chats (backend supports multiple participants, but UI is 1:1 only)
 - Message read receipts (DeliveryStatus.READ not used)
 - Message editing or reactions
@@ -60,6 +60,55 @@ In `MessageService.create()`, after saving the message, look up all chat partici
 - `data`: `chatId`, `senderId`, `senderName` (for deep link navigation)
 
 **Liquibase:** New changelog to create `device_tokens` table with columns `id`, `user_id` (FK to users), `fcm_token` (unique), `platform`, `created_at`, `updated_at`.
+
+### WebSocket/STOMP (Backend)
+
+**Dependencies to add:**
+
+- `spring-boot-starter-websocket`
+
+**WebSocketConfig:**
+
+- `@EnableWebSocketMessageBroker`
+- Simple in-memory message broker with destination prefix `/topic`
+- Application destination prefix `/app`
+- STOMP endpoint: `/ws` with SockJS fallback and allowed origins matching CORS config (add Android's origin)
+- Registry: `registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS()`
+
+**Authentication:**
+
+- Custom `ChannelInterceptor` on the `clientInboundChannel` that intercepts `CONNECT` frames
+- Reads the `Authorization` header (Bearer token) from the STOMP `CONNECT` frame's native headers
+- Validates the Firebase token via the same `FirebaseAuth.getInstance().verifyIdToken()` used by `FirebaseTokenFilter`
+- Sets a `UsernamePasswordAuthenticationToken` (or `FirebaseAuthenticationToken`) on the STOMP session's `simpUser` principal
+- Rejects connection if token is missing or invalid
+
+**Message broadcasting:**
+
+- In `MessageService.create()`, after saving the message to the database, use `SimpMessagingTemplate.convertAndSend()` to broadcast the `MessageOutputDto` to `/topic/chat/{chatId}`
+- All clients subscribed to that chat topic receive the message in real-time
+- This replaces the need for clients to poll `GET /messages/chat/{chatId}`
+
+**STOMP destinations:**
+
+| Destination | Direction | Purpose |
+|-------------|-----------|---------|
+| `/topic/chat/{chatId}` | Server → Client | New messages broadcast to chat participants |
+| `/app/chat.send` | Client → Server | Client sends a message (alternative to REST POST, optional — REST `POST /messages` is kept as the primary send mechanism) |
+
+**Note:** Messages are still sent via REST `POST /messages`. The STOMP topic is for receiving only. This keeps the send path simple (Ktor HTTP on Android) and avoids duplicating validation logic in a STOMP controller.
+
+### Frontend Update
+
+Update the frontend chat page to use WebSocket/STOMP instead of polling:
+
+- Add `@stomp/stompjs` and `sockjs-client` dependencies
+- Create a `WebSocketService` that connects to `/ws` with the Firebase Bearer token
+- Subscribe to `/topic/chat/{chatId}` when a chat is open
+- On message received, append to the messages list
+- Remove the 3-second `setInterval` polling
+- Reconnect on disconnect with exponential backoff
+- Fall back to REST fetch on initial load (get message history), then switch to WebSocket for live updates
 
 ### Data Layer (Android)
 
@@ -178,9 +227,31 @@ The existing backend needs two new user lookup endpoints:
 - `rejectFriendRequest(friendshipId: String)` — PATCH status to REJECTED
 - `removeFriend(friendshipId: String)` — DELETE friendship
 - `getOrCreateChat(friendId: String): ChatOutputDto` — checks existing chats for a 1:1 with this friend, creates one if not found
-- `getMessages(chatId: String): List<MessageOutputDto>` — GET messages for chat
+- `getMessages(chatId: String): List<MessageOutputDto>` — GET messages for chat (initial load / history)
 - `sendMessage(chatId: String, content: String)` — POST message with status SENT
 - `getCurrentUser(): UserOutputDto` — GET `/users/me`, cached in memory for the session
+
+### WebSocket/STOMP (Android)
+
+**Library:** Krossbow (`com.joffrey.krossbow:krossbow-stomp-core` + `krossbow-websocket-okhttp`) — Kotlin-first STOMP client, coroutine-based, KMP-compatible.
+
+**StompSessionManager:**
+
+- Connects to `ws://{BACKEND_BASE_URL}/ws/websocket` (SockJS raw WebSocket path) with Firebase Bearer token in the CONNECT frame headers
+- Manages a single STOMP session for the app's lifecycle
+- Exposes `subscribe(chatId: String): Flow<MessageOutputDto>` — subscribes to `/topic/chat/{chatId}` and deserializes incoming frames
+- Handles reconnection with exponential backoff (1s, 2s, 4s, max 30s) on disconnect
+- Disconnects on logout
+
+**Connection lifecycle:**
+- Connect after successful login (when user is authenticated)
+- Reconnect automatically on network change (use `ConnectivityManager` callback)
+- Disconnect on logout (before clearing Firebase auth)
+
+**Integration with ConversationViewModel:**
+- On screen open: fetch message history via REST `GET /messages/chat/{chatId}`, then subscribe to `/topic/chat/{chatId}` for live updates
+- Incoming STOMP messages are appended to the messages StateFlow
+- On screen close: unsubscribe from the topic (but keep the STOMP connection alive for other chats / FCM fallback)
 
 ### FCM Integration (Android)
 
@@ -202,7 +273,7 @@ The existing backend needs two new user lookup endpoints:
 
 Add to existing modules in `AppModules.kt`:
 
-- `networkModule` — add `FriendshipApiService`, `ChatApiService`, `MessageApiService`, `UserApiService`, `DeviceTokenApiService`
+- `networkModule` — add `FriendshipApiService`, `ChatApiService`, `MessageApiService`, `UserApiService`, `DeviceTokenApiService`, `StompSessionManager`
 - `repositoryModule` — add `ChatRepository`
 - `viewModelModule` — add `FriendsViewModel`, `ConversationViewModel`
 
@@ -295,7 +366,7 @@ The Chat tab navigates to a nested nav graph:
 - **Message bubbles**: sent messages (red, right-aligned, rounded corners), received messages (dark gray, left-aligned with small avatar). Timestamp below each bubble.
 - **Input bar**: OutlinedTextField with rounded shape, send button (red circle with arrow icon). Send button disabled when input is empty.
 - **Lazy chat creation**: if no chat exists with this friend, create one on first message send.
-- **Polling**: fetch messages every 3 seconds while the screen is visible. Stop polling on navigate away or lifecycle pause.
+- **Real-time updates**: on screen open, fetch message history via REST, then subscribe to STOMP topic `/topic/chat/{chatId}` for live incoming messages. Unsubscribe on navigate away.
 - **Empty state**: "No messages yet. Say hello!"
 
 ### FriendsViewModel
@@ -311,8 +382,10 @@ The Chat tab navigates to a nested nav graph:
 - `messages: StateFlow<List<MessageOutputDto>>` — messages for the active chat
 - `isLoading: StateFlow<Boolean>`
 - `friendName: StateFlow<String>` — display name for the top bar
-- Actions: `loadMessages(friendId)`, `sendMessage(content)`, `startPolling()`, `stopPolling()`
+- Actions: `loadMessages(friendId)`, `sendMessage(content)`, `subscribe()`, `unsubscribe()`
 - Internally manages the `chatId` — resolves it on first load via `ChatRepository.getOrCreateChat()`
+- On `subscribe()`: subscribes to STOMP topic for the chat, appends incoming messages to StateFlow
+- On `unsubscribe()`: unsubscribes from the topic (called on screen dispose)
 
 ---
 
@@ -356,6 +429,7 @@ The Chat tab navigates to a nested nav graph:
 | Library | Purpose |
 |---------|---------|
 | Firebase Cloud Messaging | Push notifications |
+| Krossbow STOMP (krossbow-stomp-core, krossbow-websocket-okhttp) | STOMP client over WebSocket |
 
 All other dependencies (Ktor, kotlinx.serialization, Koin, Compose, Firebase Auth) are already present.
 
@@ -363,7 +437,15 @@ All other dependencies (Ktor, kotlinx.serialization, Koin, Compose, Firebase Aut
 
 | Library | Purpose |
 |---------|---------|
+| spring-boot-starter-websocket | WebSocket/STOMP message broker |
 | Firebase Admin SDK | Already present — used for sending FCM push notifications |
+
+### Frontend
+
+| Library | Purpose |
+|---------|---------|
+| @stomp/stompjs | STOMP client for browser |
+| sockjs-client | SockJS fallback transport |
 
 ---
 
@@ -371,7 +453,6 @@ All other dependencies (Ktor, kotlinx.serialization, Koin, Compose, Firebase Aut
 
 - Group chats (multi-participant conversations)
 - Message read receipts (DeliveryStatus.READ)
-- WebSocket/STOMP for real-time messaging
 - Typing indicators
 - Media messages (images, videos)
 - Message search
