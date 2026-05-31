@@ -34,7 +34,6 @@ fun HomeScreen(
     ipAddress: String,
     isTracking: Boolean,
     queue: RequestQueue,
-    db: com.example.ytshare.helpers.DBHelper,
     onNavigateToSettings: () -> Unit,
     onClearLink: () -> Unit
 ) {
