@@ -3,8 +3,11 @@ package iliev.yt.share.backend.message;
 import iliev.yt.share.backend.chat.Chat;
 import iliev.yt.share.backend.chat.ChatRepository;
 import iliev.yt.share.backend.chat.exception.ChatNotFoundException;
+import iliev.yt.share.backend.devicetoken.DeviceToken;
+import iliev.yt.share.backend.devicetoken.DeviceTokenService;
 import iliev.yt.share.backend.message.dto.MessageInputDto;
 import iliev.yt.share.backend.message.exception.MessageNotFoundException;
+import iliev.yt.share.backend.notification.FcmService;
 import iliev.yt.share.backend.user.exception.UserNotFoundException;
 import iliev.yt.share.backend.message.dto.MessageOutputDto;
 import iliev.yt.share.backend.user.User;
@@ -12,6 +15,7 @@ import iliev.yt.share.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +29,9 @@ public class MessageService {
     private final MessageMapper messageMapper;
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
+    private final SimpMessagingTemplate messagingTemplate;
+    private final DeviceTokenService deviceTokenService;
+    private final FcmService fcmService;
 
     public List<MessageOutputDto> getAllMessages() {
         return messageRepository.findAll().stream()
@@ -67,7 +74,28 @@ public class MessageService {
                 .build();
 
         final Message savedMessage = messageRepository.save(message);
-        return messageMapper.toOutputDto(savedMessage);
+        final MessageOutputDto outputDto = messageMapper.toOutputDto(savedMessage);
+
+        messagingTemplate.convertAndSend("/topic/chat/" + chat.getId(), outputDto);
+
+        final List<UUID> recipientIds = chat.getParticipants().stream()
+                .map(User::getId)
+                .filter(id -> !id.equals(sender.getId()))
+                .toList();
+        final List<DeviceToken> tokens = deviceTokenService.getTokensByUserIds(recipientIds);
+        final String senderName = sender.getFirstName();
+        for (final DeviceToken token : tokens) {
+            fcmService.sendPushNotification(
+                    token.getFcmToken(),
+                    senderName,
+                    inputDto.content(),
+                    chat.getId().toString(),
+                    sender.getId().toString(),
+                    senderName
+            );
+        }
+
+        return outputDto;
     }
 
     @Transactional
