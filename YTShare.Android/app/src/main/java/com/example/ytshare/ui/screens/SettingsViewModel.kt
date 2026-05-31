@@ -37,4 +37,8 @@ class SettingsViewModel(
         SharedPrefHelper.savePref(enabled, sharedPreferences)
         _isTrackingEnabled.value = enabled
     }
+
+    fun refresh() {
+        nsdHelper.restartDiscovery()
+    }
 }

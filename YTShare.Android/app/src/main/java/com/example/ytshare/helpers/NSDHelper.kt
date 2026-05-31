@@ -64,6 +64,12 @@ class NSDHelper(private val context: Context) {
         nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, listener)
     }
 
+    fun restartDiscovery() {
+        stopDiscovery()
+        _hosts.value = emptyList()
+        startDiscovery()
+    }
+
     fun stopDiscovery() {
         discoveryListener?.let {
             try {
