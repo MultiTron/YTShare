@@ -1,10 +1,12 @@
 package com.example.ytshare.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
+import com.example.ytshare.helpers.NSDHelper
 import com.example.ytshare.data.auth.AuthRepository
 import com.example.ytshare.data.local.AppDatabase
 import com.example.ytshare.data.remote.ChatApiService
@@ -16,6 +18,7 @@ import com.example.ytshare.data.remote.UserApiService
 import com.example.ytshare.data.remote.VideoApiService
 import com.example.ytshare.data.repository.ChatRepository
 import com.example.ytshare.data.repository.VideoRepository
+import com.example.ytshare.ui.screens.SettingsViewModel
 import com.example.ytshare.ui.screens.auth.AuthViewModel
 import com.example.ytshare.ui.screens.chat.ConversationViewModel
 import com.example.ytshare.ui.screens.chat.FriendsViewModel
@@ -83,6 +86,14 @@ val viewModelModule = module {
     viewModel { AuthViewModel(get()) }
     viewModel { FriendsViewModel(get()) }
     viewModel { ConversationViewModel(get(), get()) }
+    viewModel { SettingsViewModel(get(), get()) }
 }
 
-val appModules = listOf(databaseModule, networkModule, repositoryModule, viewModelModule)
+val helperModule = module {
+    single { NSDHelper(androidContext()) }
+    single<SharedPreferences> {
+        androidContext().getSharedPreferences("ytshare_prefs", Context.MODE_PRIVATE)
+    }
+}
+
+val appModules = listOf(databaseModule, networkModule, repositoryModule, viewModelModule, helperModule)
