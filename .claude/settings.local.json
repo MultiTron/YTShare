@@ -11,7 +11,16 @@
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\iliev\\\\Desktop\\\\YTShare\\\\YTShare.Android\" -Recurse -Depth 2)",
       "Bash(Select-Object FullName)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git check-ignore *)",
+      "Bash(git reset *)",
+      "Bash(git ls-tree *)",
+      "Bash(git checkout *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\iliev\\\\Desktop\\\\YTShare\\\\YTShare.Android\\\\app\\\\src\\\\main\\\\java\\\\com\\\\example\\\\ytshare\\\\ui\\\\screens\" -Recurse -ErrorAction SilentlyContinue)",
+      "PowerShell(New-Item *)",
+      "Bash(git rm *)",
+      "Bash(git log *)",
+      "PowerShell(git rm *)"
     ]
   }
 }
