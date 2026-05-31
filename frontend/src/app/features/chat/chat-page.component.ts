@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, signal, computed, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService, UserOutput } from '../../core/services/user.service';
 import { FriendshipService, FriendshipOutput } from '../../core/services/friendship.service';
 import { ChatService, ChatOutput, MessageOutput } from '../../core/services/chat.service';
+import { WebSocketService } from '../../core/services/websocket.service';
 
 type SidebarTab = 'chats' | 'friends';
 
@@ -20,8 +22,9 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   private readonly userService = inject(UserService);
   private readonly friendshipService = inject(FriendshipService);
   private readonly chatService = inject(ChatService);
+  private readonly wsService = inject(WebSocketService);
   private readonly router = inject(Router);
-  private pollingInterval: ReturnType<typeof setInterval> | null = null;
+  private wsSubscription: Subscription | null = null;
 
   readonly currentUser = signal<UserOutput | null>(null);
   readonly activeTab = signal<SidebarTab>('chats');
@@ -61,6 +64,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
         this.currentUser.set(user);
         this.loadChats();
         this.loadFriends();
+        this.wsService.connect();
       }
     });
   }
@@ -92,7 +96,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     this.activeChat.set(chat);
     this.mobileChatOpen.set(true);
     this.loadMessages(chat.id);
-    this.startPolling(chat.id);
+    this.startWebSocket(chat.id);
   }
 
   loadMessages(chatId: string): void {
@@ -106,24 +110,27 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  private startPolling(chatId: string): void {
-    this.stopPolling();
-    this.pollingInterval = setInterval(() => {
-      this.chatService.getMessagesByChat(chatId).subscribe({
-        next: (msgs) => this.messages.set(msgs)
-      });
-    }, 3000);
+  private startWebSocket(chatId: string): void {
+    this.stopWebSocket();
+    this.wsSubscription = this.wsService.subscribeToChat(chatId).subscribe({
+      next: (msg) => this.messages.update(msgs => [...msgs, msg])
+    });
   }
 
-  private stopPolling(): void {
-    if (this.pollingInterval) {
-      clearInterval(this.pollingInterval);
-      this.pollingInterval = null;
+  private stopWebSocket(): void {
+    if (this.wsSubscription) {
+      this.wsSubscription.unsubscribe();
+      this.wsSubscription = null;
+    }
+    const chat = this.activeChat();
+    if (chat) {
+      this.wsService.unsubscribeFromChat(chat.id);
     }
   }
 
   ngOnDestroy(): void {
-    this.stopPolling();
+    this.stopWebSocket();
+    this.wsService.disconnect();
   }
 
   sendMessage(): void {
@@ -139,8 +146,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
       chatId: chat.id,
       senderId: user.id
     }).subscribe({
-      next: (msg) => {
-        this.messages.update(msgs => [...msgs, msg]);
+      next: () => {
         this.messageText.set('');
         this.sendingMessage.set(false);
       },
