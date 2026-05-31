@@ -100,8 +100,8 @@ class MainActivityCompose : ComponentActivity() {
         nsd.startDiscovery()
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         nsd.stopDiscovery()
     }
 

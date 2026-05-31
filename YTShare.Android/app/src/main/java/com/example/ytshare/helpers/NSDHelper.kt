@@ -43,9 +43,6 @@ class NSDHelper(private val context: Context) {
 
             override fun onServiceLost(service: NsdServiceInfo) {
                 Log.d(TAG, "Service lost: ${service.serviceName}")
-                _hosts.update { list ->
-                    list.filter { it.hostName != service.serviceName }
-                }
             }
 
             override fun onDiscoveryStopped(serviceType: String) {
@@ -98,8 +95,8 @@ class NSDHelper(private val context: Context) {
                 nsdManager.stopServiceDiscovery(it)
             } catch (e: IllegalArgumentException) {
                 Log.w(TAG, "Discovery already stopped", e)
-                discoveryListener = null
             }
+            discoveryListener = null
         }
     }
 
