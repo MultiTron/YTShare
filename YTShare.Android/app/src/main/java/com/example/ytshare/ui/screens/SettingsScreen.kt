@@ -5,9 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.example.ytshare.models.HostModel
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = koinViewModel(),
@@ -29,48 +29,43 @@ fun SettingsScreen(
     val context = LocalContext.current
     val hosts by viewModel.hosts.collectAsState()
     val isTrackingEnabled by viewModel.isTrackingEnabled.collectAsState()
+    val isRefreshing by viewModel.isRefreshing.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Row(
+        Text(
+            text = "Available Devices",
+            fontSize = 30.sp,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 10.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Available Devices",
-                fontSize = 30.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.weight(1f)
-            )
-            IconButton(onClick = { viewModel.refresh() }) {
-                Icon(
-                    imageVector = Icons.Filled.Refresh,
-                    contentDescription = "Refresh devices"
-                )
-            }
-        }
+            textAlign = TextAlign.Center
+        )
 
-        LazyColumn(
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = { viewModel.refresh() },
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+                .fillMaxWidth()
         ) {
-            items(hosts) { host ->
-                HostCard(
-                    host = host,
-                    onHostClick = {
-                        viewModel.selectHost(host)
-                        onIpChanged(host.toString())
-                        Toast.makeText(context, "Setting selected ip...", Toast.LENGTH_SHORT).show()
-                    }
-                )
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(hosts) { host ->
+                    HostCard(
+                        host = host,
+                        onHostClick = {
+                            viewModel.selectHost(host)
+                            onIpChanged(host.toString())
+                            Toast.makeText(context, "Setting selected ip...", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
             }
         }
 
