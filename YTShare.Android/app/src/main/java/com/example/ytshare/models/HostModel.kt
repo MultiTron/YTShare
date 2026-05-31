@@ -1,11 +1,9 @@
 package com.example.ytshare.models
 
-import java.net.InetAddress
-
-class HostModel(var address: String,
-                var hostName: String,
-                var port: Int) {
-    override fun toString(): String {
-        return "${address}:${port}"
-    }
+data class HostModel(
+    val address: String,
+    val hostName: String,
+    val port: Int
+) {
+    override fun toString(): String = "$address:$port"
 }
