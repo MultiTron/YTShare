@@ -12,36 +12,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ytshare.models.HostModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsScreen(
-    hosts: List<HostModel>,
-    isTrackingEnabled: Boolean,
-    onHostSelected: (HostModel) -> Unit,
-    onTrackingChanged: (Boolean) -> Unit
+    viewModel: SettingsViewModel = koinViewModel(),
+    onIpChanged: (String) -> Unit = {}
 ) {
     val context = LocalContext.current
+    val hosts by viewModel.hosts.collectAsState()
+    val isTrackingEnabled by viewModel.isTrackingEnabled.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Title
         Text(
             text = "Available Devices",
             fontSize = 30.sp,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 10.dp),
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            textAlign = TextAlign.Center
         )
 
-        // Host List
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
@@ -52,7 +52,8 @@ fun SettingsScreen(
                 HostCard(
                     host = host,
                     onHostClick = {
-                        onHostSelected(host)
+                        viewModel.selectHost(host)
+                        onIpChanged(host.toString())
                         Toast.makeText(context, "Setting selected ip...", Toast.LENGTH_SHORT).show()
                     }
                 )
@@ -61,17 +62,16 @@ fun SettingsScreen(
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        // Tracking Checkbox
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onTrackingChanged(!isTrackingEnabled) }
+                .clickable { viewModel.setTracking(!isTrackingEnabled) }
                 .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
                 checked = isTrackingEnabled,
-                onCheckedChange = { onTrackingChanged(it) }
+                onCheckedChange = { viewModel.setTracking(it) }
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
