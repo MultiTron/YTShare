@@ -1,5 +1,6 @@
 package iliev.yt.share.backend.user;
 
+import iliev.yt.share.backend.security.SecurityUtils;
 import iliev.yt.share.backend.user.dto.UserInputDto;
 import iliev.yt.share.backend.user.dto.UserOutputDto;
 import iliev.yt.share.backend.user.exception.UserNotFoundByEmailException;
@@ -47,6 +48,13 @@ public class UserService {
         final User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundByEmailException(email));
 
+        return userMapper.toOutputDto(user);
+    }
+
+    public UserOutputDto getCurrentUser() {
+        final String firebaseUid = SecurityUtils.requireCurrentUserUid();
+        final User user = userRepository.findByFirebaseUid(firebaseUid)
+                .orElseThrow(() -> new UserNotFoundException(firebaseUid));
         return userMapper.toOutputDto(user);
     }
 
