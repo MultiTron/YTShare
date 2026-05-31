@@ -6,7 +6,6 @@ import { environment } from '../../../environments/environment';
 export interface VideoOutput {
   id: string;
   title: string;
-  description: string;
   url: string;
   thumbnailUrl: string;
 }

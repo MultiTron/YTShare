@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1748600000000-1
+      author: iliev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropColumn:
+            tableName: videos
+            columnName: description

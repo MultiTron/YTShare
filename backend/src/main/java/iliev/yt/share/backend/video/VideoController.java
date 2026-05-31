@@ -46,4 +46,9 @@ public class VideoController {
     public void deleteVideo(@PathVariable final UUID id) {
         videoService.deleteVideo(id);
     }
+
+    @DeleteMapping
+    public void deleteAllVideos() {
+        videoService.deleteAllVideos();
+    }
 }

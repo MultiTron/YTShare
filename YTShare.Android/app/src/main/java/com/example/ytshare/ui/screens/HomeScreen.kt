@@ -1,7 +1,6 @@
 package com.example.ytshare.ui.screens
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,7 +13,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,8 +20,13 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.example.ytshare.R
-import com.example.ytshare.helpers.DBHelper
+import com.example.ytshare.data.remote.VideoInputDto
+import com.example.ytshare.data.repository.VideoRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
+import org.koin.compose.koinInject
 
 @Composable
 fun HomeScreen(
@@ -31,11 +34,12 @@ fun HomeScreen(
     ipAddress: String,
     isTracking: Boolean,
     queue: RequestQueue,
-    db: DBHelper,
+    db: com.example.ytshare.helpers.DBHelper,
     onNavigateToSettings: () -> Unit,
     onClearLink: () -> Unit
 ) {
     val context = LocalContext.current
+    val videoRepository: VideoRepository = koinInject()
     var urlText by remember { mutableStateOf(modifyLink(savedLink, isTracking)) }
     var isLoading by remember { mutableStateOf(false) }
     val baseAddress = "http://$ipAddress/Share?link="
@@ -45,7 +49,6 @@ fun HomeScreen(
             .fillMaxSize()
             .padding(horizontal = 8.dp)
     ) {
-        // IP Background with text
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,18 +57,14 @@ fun HomeScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(30.dp) // Matches android:height="30dp"
+                    .height(30.dp)
                     .background(
-                        // Replicates the <gradient> tag
                         brush = Brush.linearGradient(
                             colors = listOf(
-                                colorResource(id = R.color.red),      // startColor
-                                colorResource(id = R.color.dark_red)  // endColor
+                                colorResource(id = R.color.red),
+                                colorResource(id = R.color.dark_red)
                             )
-                            // Note: XML angle="45" is Bottom-Left to Top-Right.
-                            // Default linearGradient is Top-Left to Bottom-Right, which is visually very similar.
                         ),
-                        // Replicates the <corners> tag
                         shape = RoundedCornerShape(
                             bottomStart = 20.dp,
                             bottomEnd = 20.dp
@@ -86,7 +85,6 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(50.dp))
 
-        // URL Input
         OutlinedTextField(
             value = urlText,
             onValueChange = { urlText = it },
@@ -98,7 +96,6 @@ fun HomeScreen(
             textStyle = LocalTextStyle.current.copy(fontSize = 24.sp)
         )
 
-        // Share Button
         Button(
             onClick = {
                 if (urlText.isNotEmpty()) {
@@ -107,7 +104,7 @@ fun HomeScreen(
                         link = urlText,
                         baseAddress = baseAddress,
                         queue = queue,
-                        db = db,
+                        videoRepository = videoRepository,
                         context = context,
                         onSuccess = {
                             isLoading = false
@@ -134,7 +131,6 @@ fun HomeScreen(
             )
         }
 
-        // Progress Indicator
         if (isLoading) {
             Spacer(modifier = Modifier.height(100.dp))
             CircularProgressIndicator(
@@ -164,7 +160,7 @@ private fun shareRequest(
     link: String,
     baseAddress: String,
     queue: RequestQueue,
-    db: DBHelper,
+    videoRepository: VideoRepository,
     context: android.content.Context,
     onSuccess: () -> Unit,
     onError: () -> Unit
@@ -172,7 +168,7 @@ private fun shareRequest(
     val stringRequest = StringRequest(
         Request.Method.GET, "$baseAddress$link",
         { response ->
-            saveLinkInfo(link, queue, db)
+            saveLinkInfo(link, queue, videoRepository)
             Toast.makeText(context, response, Toast.LENGTH_LONG).show()
             onSuccess()
         },
@@ -188,16 +184,23 @@ private fun shareRequest(
     queue.add(stringRequest)
 }
 
-private fun saveLinkInfo(link: String, queue: RequestQueue, db: DBHelper) {
+private fun saveLinkInfo(link: String, queue: RequestQueue, videoRepository: VideoRepository) {
     val stringRequest = StringRequest(
         Request.Method.GET, "https://www.youtube.com/oembed?url=$link&format=json",
         { response ->
             val json = JSONObject(response)
-            db.addLink(
-                json.get("title").toString(),
-                link,
-                json.get("thumbnail_url").toString()
-            )
+            val title = json.get("title").toString().take(128)
+            val thumbnailUrl = json.get("thumbnail_url").toString()
+
+            CoroutineScope(Dispatchers.IO).launch {
+                videoRepository.saveVideo(
+                    VideoInputDto(
+                        title = title,
+                        url = link,
+                        thumbnailUrl = thumbnailUrl
+                    )
+                )
+            }
         },
         {
             android.util.Log.e("LinkInfo", "Unable to reach YouTube Info Server...")

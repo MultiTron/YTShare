@@ -5,4 +5,5 @@ object Constants {
     const val ip = "ip"
     const val link = "link"
     const val isHistoryDesc = "isHistoryDesc"
+    const val BACKEND_BASE_URL = "http://localhost:8080/api"
 }
