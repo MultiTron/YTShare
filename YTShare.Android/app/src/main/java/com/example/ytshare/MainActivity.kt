@@ -84,17 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeNSD() {
         nsd = NSDHelper(this)
-
-        nsd.discoverServices()
-        if (!nsd.addresses.isEmpty()){
-
-            val host = nsd.addresses.first()
-            if (!host.address.isNullOrEmpty()) {
-                SharedPrefHelper.saveIp(host.toString(), sharedPref)
-            } else {
-                SharedPrefHelper.clearIp(sharedPref)
-            }
-        }
+        nsd.startDiscovery()
     }
 
     fun replaceFragment(fragment:Fragment) {
