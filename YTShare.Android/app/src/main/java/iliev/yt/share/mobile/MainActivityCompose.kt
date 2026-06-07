@@ -125,6 +125,8 @@ class MainActivityCompose : ComponentActivity() {
                 } catch (e: Exception) { Log.w("FCM", "Failed to get FCM token", e) }
 
                 try { videoRepo.syncUnsyncedVideos() } catch (e: Exception) { Log.w("Sync", "Failed to sync videos", e) }
+            } else {
+                stompManager.disconnect()
             }
         }
 
