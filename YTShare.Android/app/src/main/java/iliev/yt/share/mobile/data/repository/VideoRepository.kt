@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
+import iliev.yt.share.mobile.data.auth.AuthRepository
 import iliev.yt.share.mobile.data.local.VideoDao
 import iliev.yt.share.mobile.data.local.VideoEntity
 import iliev.yt.share.mobile.data.remote.VideoApiService
@@ -16,7 +17,8 @@ import kotlinx.coroutines.flow.map
 class VideoRepository(
     private val api: VideoApiService,
     private val dao: VideoDao,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
+    private val authRepository: AuthRepository
 ) {
     companion object {
         private const val TAG = "VideoRepository"
@@ -32,6 +34,7 @@ class VideoRepository(
     }
 
     suspend fun refreshFromBackend() {
+        if (!authRepository.isAuthenticated) return
         try {
             val remoteVideos = api.getAllVideos()
             val entities = remoteVideos.map { dto ->
@@ -53,6 +56,18 @@ class VideoRepository(
     }
 
     suspend fun saveVideo(input: VideoInputDto) {
+        if (!authRepository.isAuthenticated) {
+            val entity = VideoEntity(
+                id = java.util.UUID.randomUUID().toString(),
+                title = input.title,
+                url = input.url,
+                thumbnailUrl = input.thumbnailUrl,
+                createdAt = System.currentTimeMillis(),
+                synced = false
+            )
+            dao.insert(entity)
+            return
+        }
         try {
             val response = api.createVideo(input)
             val entity = VideoEntity(
@@ -79,19 +94,23 @@ class VideoRepository(
     }
 
     suspend fun deleteVideo(id: String) {
-        try {
-            api.deleteVideo(id)
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to delete from backend", e)
+        if (authRepository.isAuthenticated) {
+            try {
+                api.deleteVideo(id)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to delete from backend", e)
+            }
         }
         dao.deleteById(id)
     }
 
     suspend fun deleteAllVideos() {
-        try {
-            api.deleteAllVideos()
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to delete all from backend", e)
+        if (authRepository.isAuthenticated) {
+            try {
+                api.deleteAllVideos()
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to delete all from backend", e)
+            }
         }
         dao.deleteAll()
     }

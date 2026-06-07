@@ -77,7 +77,7 @@ val networkModule = module {
 
 val repositoryModule = module {
     single { AuthRepository() }
-    single { VideoRepository(get(), get(), androidContext().dataStore) }
+    single { VideoRepository(get(), get(), androidContext().dataStore, get()) }
     single { ChatRepository(get(), get(), get(), get(), get()) }
 }
 
