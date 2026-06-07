@@ -16,16 +16,19 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
 
-    private val _isAuthenticated = MutableStateFlow(authRepository.isAuthenticated)
-    val isAuthenticated: StateFlow<Boolean> = _isAuthenticated.asStateFlow()
+    private val _authState = MutableStateFlow<AuthState>(
+        authRepository.currentUser?.email?.let { AuthState.Authenticated(it) }
+            ?: AuthState.Anonymous
+    )
+    val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
     fun signIn(email: String, password: String) {
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
             val result = authRepository.signIn(email, password)
-            result.onSuccess {
-                _isAuthenticated.value = true
+            result.onSuccess { user ->
+                _authState.value = AuthState.Authenticated(user.email ?: email)
             }.onFailure { e ->
                 _error.value = e.message ?: "Sign in failed"
             }
@@ -38,8 +41,8 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
             _isLoading.value = true
             _error.value = null
             val result = authRepository.signUp(email, password)
-            result.onSuccess {
-                _isAuthenticated.value = true
+            result.onSuccess { user ->
+                _authState.value = AuthState.Authenticated(user.email ?: email)
             }.onFailure { e ->
                 _error.value = e.message ?: "Sign up failed"
             }
@@ -49,6 +52,6 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
 
     fun signOut() {
         authRepository.signOut()
-        _isAuthenticated.value = false
+        _authState.value = AuthState.Anonymous
     }
 }
