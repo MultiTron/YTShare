@@ -43,10 +43,12 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import iliev.yt.share.mobile.data.remote.StompSessionManager
 import iliev.yt.share.mobile.data.repository.ChatRepository
+import iliev.yt.share.mobile.data.repository.VideoRepository
 import iliev.yt.share.mobile.helpers.NSDHelper
 import iliev.yt.share.mobile.helpers.SharedPrefHelper
 import iliev.yt.share.mobile.ui.screens.HomeScreen
 import iliev.yt.share.mobile.ui.screens.SettingsScreen
+import iliev.yt.share.mobile.ui.screens.auth.AuthState
 import iliev.yt.share.mobile.ui.screens.auth.AuthViewModel
 import iliev.yt.share.mobile.ui.screens.auth.LoginScreen
 import iliev.yt.share.mobile.ui.screens.chat.ConversationScreen
@@ -84,13 +86,7 @@ class MainActivityCompose : ComponentActivity() {
         setContent {
             YTShareTheme {
                 val authViewModel: AuthViewModel = koinViewModel()
-                val isAuthenticated by authViewModel.isAuthenticated.collectAsState()
-
-                if (isAuthenticated) {
-                    MainScreen(authViewModel)
-                } else {
-                    LoginScreen(viewModel = authViewModel)
-                }
+                MainScreen(authViewModel)
             }
         }
     }
@@ -111,19 +107,25 @@ class MainActivityCompose : ComponentActivity() {
         val navController = rememberNavController()
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
+        val authState by authViewModel.authState.collectAsState()
 
         val stompManager: StompSessionManager = org.koin.compose.koinInject()
         val chatRepo: ChatRepository = org.koin.compose.koinInject()
+        val videoRepo: VideoRepository = org.koin.compose.koinInject()
 
-        LaunchedEffect(Unit) {
-            stompManager.connect()
-            try {
-                com.google.firebase.messaging.FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
-                    kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
-                        try { chatRepo.registerDeviceToken(token) } catch (e: Exception) { Log.w("FCM", "Failed to register device token", e) }
+        LaunchedEffect(authState) {
+            if (authState is AuthState.Authenticated) {
+                stompManager.connect()
+                try {
+                    com.google.firebase.messaging.FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                        kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                            try { chatRepo.registerDeviceToken(token) } catch (e: Exception) { Log.w("FCM", "Failed to register device token", e) }
+                        }
                     }
-                }
-            } catch (e: Exception) { Log.w("FCM", "Failed to get FCM token", e) }
+                } catch (e: Exception) { Log.w("FCM", "Failed to get FCM token", e) }
+
+                try { videoRepo.syncUnsyncedVideos() } catch (e: Exception) { Log.w("Sync", "Failed to sync videos", e) }
+            }
         }
 
         var ipAddress by remember { mutableStateOf(sharedPref.getString(Constants.ip, "0.0.0.0") ?: "0.0.0.0") }
@@ -139,13 +141,17 @@ class MainActivityCompose : ComponentActivity() {
             }
         }
 
+        val hideBottomBar = currentRoute?.startsWith("conversation") == true || currentRoute == "login"
+
         Scaffold(
             bottomBar = {
-                if (currentRoute?.startsWith("conversation") != true) NavigationBar(
+                if (!hideBottomBar) NavigationBar(
                     containerColor = Color.Red,
                     contentColor = Color.White
                 ) {
                     bottomNavItems.forEach { item ->
+                        val isChatTab = item.route == "friends"
+                        val isDisabled = isChatTab && !authState.isAuthenticated
                         NavigationBarItem(
                             icon = {
                                 Icon(
@@ -156,20 +162,23 @@ class MainActivityCompose : ComponentActivity() {
                             },
                             label = { Text(item.label) },
                             selected = currentRoute == item.route,
+                            enabled = !isDisabled,
                             onClick = {
-                                navController.navigate(item.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                                if (!isDisabled) {
+                                    navController.navigate(item.route) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                                    launchSingleTop = true
-                                    restoreState = true
                                 }
                             },
                             colors = NavigationBarItemDefaults.colors(
                                 selectedIconColor = Color.White,
-                                unselectedIconColor = Color.White,
+                                unselectedIconColor = if (isDisabled) Color(0x66FFFFFF) else Color.White,
                                 selectedTextColor = Color.White,
-                                unselectedTextColor = Color.White,
+                                unselectedTextColor = if (isDisabled) Color(0x66FFFFFF) else Color.White,
                                 indicatorColor = Color(0x33FFFFFF)
                             )
                         )
@@ -211,6 +220,8 @@ class MainActivityCompose : ComponentActivity() {
 
                 composable("settings") {
                     SettingsScreen(
+                        authViewModel = authViewModel,
+                        navController = navController,
                         onIpChanged = { newIp ->
                             ipAddress = newIp
                         }
@@ -251,6 +262,13 @@ class MainActivityCompose : ComponentActivity() {
                         friendFirstName = firstName,
                         friendLastName = lastName,
                         onBack = { navController.popBackStack() }
+                    )
+                }
+
+                composable("login") {
+                    LoginScreen(
+                        viewModel = authViewModel,
+                        navController = navController
                     )
                 }
             }
