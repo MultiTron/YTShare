@@ -37,15 +37,18 @@ void RegisterBonjourService()
 
         eventManager.ServiceRegistered += EventManager_ServiceRegistered;
 
+        TXTRecord txtRecord = new TXTRecord();
+        txtRecord.SetValue("hostname", Environment.MachineName);
+
         bonjourService.Register(
             0,                      // No flags
             0,                      // Interface index (0 = all interfaces)
             "YTShareService",       // Service name
-            "_http._tcp.",          // Service type (e.g., _http._tcp.)
+            "_http._tcp.",          // Service type
             null,                   // Domain (null = local domain)
             null,                   // Host name (null = default)
             7296,                   // Port number
-            null,                   // TXT record (null = no additional info)
+            txtRecord,              // TXT record with hostname
             eventManager            // Event manager for callbacks
         );
     }

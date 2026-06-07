@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ytshare"
+    namespace = "iliev.yt.share.mobile"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.ytshare"
+        applicationId = "iliev.yt.share.mobile"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
