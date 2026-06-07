@@ -29,7 +29,10 @@
       "Bash(npx tsc *)",
       "Bash(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\iliev\\\\Desktop\\\\YTShare\\\\YTShare.Android\\\\app\\\\src\\\\main\\\\java\\\\com\\\\example\\\\ytshare\\\\fcm\")",
       "Bash(Out-Null)",
-      "Bash(.\\\\mvnw compile *)"
+      "Bash(.\\\\mvnw compile *)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\iliev\\\\Desktop\\\\YTShare\\\\architecture-diagram.html\")",
+      "mcp__claude_ai_Google_Drive__read_file_content",
+      "mcp__claude_ai_Google_Drive__create_file"
     ]
   }
 }
