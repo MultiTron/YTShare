@@ -766,12 +766,12 @@ In `environment.ts`, add `wsUrl`:
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyCdkaNu1vlFYWXtKWWS9BISJD5NcSkKU88",
-    authDomain: "yt-share-2028b.firebaseapp.com",
-    projectId: "yt-share-2028b",
-    storageBucket: "yt-share-2028b.firebasestorage.app",
-    messagingSenderId: "914297985642",
-    appId: "1:914297985642:web:209ebe0ac5f253e0f14813"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
   },
   apiUrl: 'http://localhost:8080',
   wsUrl: 'http://localhost:8080/ws'

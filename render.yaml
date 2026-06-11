@@ -1,0 +1,63 @@
+databases:
+  - name: ytshare-db
+    plan: free
+    databaseName: ytshare
+    user: ytshare
+
+services:
+  - type: web
+    name: ytshare-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: ytshare-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: ytshare-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: ytshare-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: ytshare-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: ytshare-db
+          property: password
+      - key: FIREBASE_CREDENTIALS_JSON
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+
+  - type: web
+    name: ytshare-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    plan: free
+    envVars:
+      - key: FIREBASE_API_KEY
+        sync: false
+      - key: FIREBASE_AUTH_DOMAIN
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: FIREBASE_STORAGE_BUCKET
+        sync: false
+      - key: FIREBASE_MESSAGING_SENDER_ID
+        sync: false
+      - key: FIREBASE_APP_ID
+        sync: false
+      - key: API_URL
+        sync: false
+      - key: WS_URL
+        sync: false

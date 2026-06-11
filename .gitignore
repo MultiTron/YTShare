@@ -1,1 +1,6 @@
 *.stackdump
+.env
+Env.kt
+
+# Frontend environment config (contains Firebase keys)
+frontend/src/environments/environment.ts
