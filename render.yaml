@@ -11,7 +11,7 @@ services:
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     plan: free
-    healthCheckPath: /actuator/health
+    healthCheckPath: ""
     envVars:
       - key: DB_HOST
         fromDatabase:
