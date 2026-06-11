@@ -23,11 +23,16 @@ import iliev.yt.share.mobile.ui.screens.auth.AuthViewModel
 import iliev.yt.share.mobile.ui.screens.chat.ConversationViewModel
 import iliev.yt.share.mobile.ui.screens.chat.FriendsViewModel
 import iliev.yt.share.mobile.ui.screens.history.HistoryViewModel
+import iliev.yt.share.mobile.data.remote.ApiException
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.HttpResponseValidator
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.header
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
@@ -52,11 +57,24 @@ val networkModule = module {
     single {
         val authRepository = get<AuthRepository>()
         HttpClient(CIO) {
+            install(HttpTimeout) {
+                requestTimeoutMillis = 60_000
+                connectTimeoutMillis = 60_000
+                socketTimeoutMillis = 60_000
+            }
             install(ContentNegotiation) {
                 json(Json {
                     ignoreUnknownKeys = true
                     isLenient = true
                 })
+            }
+            HttpResponseValidator {
+                validateResponse { response ->
+                    if (!response.status.isSuccess()) {
+                        val body = response.bodyAsText()
+                        throw ApiException(response.status, body)
+                    }
+                }
             }
             defaultRequest {
                 val token = runBlocking { authRepository.getIdToken() }
