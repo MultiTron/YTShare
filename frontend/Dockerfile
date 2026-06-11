@@ -15,6 +15,8 @@ ARG FIREBASE_APP_ID
 ARG API_URL
 ARG WS_URL
 
+RUN cp src/environments/environment.ts.example src/environments/environment.ts
+
 RUN cat > src/environments/environment.prod.ts <<EOF
 export const environment = {
   production: true,
