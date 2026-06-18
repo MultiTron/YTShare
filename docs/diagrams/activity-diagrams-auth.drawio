@@ -1,0 +1,330 @@
+<mxfile host="app.diagrams.net" agent="Claude Code" pages="2">
+  <diagram id="login-activity" name="Login Activity Diagram">
+    <mxGraphModel dx="2090" dy="1227" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1500" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="L0" />
+        <mxCell id="L1" parent="L0" />
+        <mxCell id="L-title" parent="L1" style="text;html=1;fontSize=20;fontStyle=1;align=center;fontColor=#000000;fillColor=none;strokeColor=none;" value="Activity Diagram: Login (Sign In)" vertex="1">
+          <mxGeometry height="40" width="400" x="250" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="L-lane-user" parent="L1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=13;strokeWidth=2;" value="User" vertex="1">
+          <mxGeometry height="1340" width="250" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="L-lane-angular" parent="L1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=13;strokeWidth=2;" value="Angular Frontend" vertex="1">
+          <mxGeometry height="1340" width="260" x="290" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="L-lane-firebase" parent="L1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=13;strokeWidth=2;" value="Firebase Auth" vertex="1">
+          <mxGeometry height="1340" width="220" x="550" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="L-lane-backend" parent="L1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=13;strokeWidth=2;" value="Spring Boot Backend" vertex="1">
+          <mxGeometry height="1340" width="250" x="770" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="L-start" parent="L1" style="ellipse;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="145" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a1" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Navigate to /login" vertex="1">
+          <mxGeometry height="40" width="150" x="85" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a2" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Display login form&#xa;(email, password)" vertex="1">
+          <mxGeometry height="40" width="170" x="335" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a3" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Enter email &amp; password&#xa;Click &quot;Sign In&quot;" vertex="1">
+          <mxGeometry height="45" width="150" x="90" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="L-d1" parent="L1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Form&#xa;valid?" vertex="1">
+          <mxGeometry height="80" width="100" x="375" y="365" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a-invalid" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Mark fields as touched&#xa;Show validation errors" vertex="1">
+          <mxGeometry height="40" width="170" x="90" y="385" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a4" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Set isSubmitting = true&#xa;Clear error message" vertex="1">
+          <mxGeometry height="40" width="170" x="340" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a5" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="AuthService.login()&#xa;signInWithEmailAndPassword()" vertex="1">
+          <mxGeometry height="45" width="200" x="325" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a6" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Verify email &amp; password&#xa;against Firebase users" vertex="1">
+          <mxGeometry height="45" width="170" x="580" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="L-d2" parent="L1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Credentials&#xa;valid?" vertex="1">
+          <mxGeometry height="80" width="110" x="610" y="745" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a-err" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Return error code&#xa;(invalid-credential,&#xa;too-many-requests, etc.)" vertex="1">
+          <mxGeometry height="55" width="180" x="575" y="870" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a-showerr" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Set isSubmitting = false&#xa;Show error banner&#xa;(getErrorMessage)" vertex="1">
+          <mxGeometry height="55" width="180" x="335" y="870" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a7" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Return UserCredential&#xa;+ Firebase ID Token" vertex="1">
+          <mxGeometry height="45" width="170" x="810" y="762.5" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a8" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="onAuthStateChanged fires&#xa;firebaseUser signal updated&#xa;isAuthenticated = true" vertex="1">
+          <mxGeometry height="55" width="200" x="335" y="980" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a9" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="router.navigate([&#39;/chats&#39;])" vertex="1">
+          <mxGeometry height="40" width="180" x="345" y="1075" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a10" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="AuthInterceptor attaches&#xa;Bearer token to requests" vertex="1">
+          <mxGeometry height="40" width="180" x="345" y="1155" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a11" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="FirebaseTokenFilter&#xa;verifies token&#xa;Sets SecurityContext" vertex="1">
+          <mxGeometry height="50" width="170" x="820" y="1150" as="geometry" />
+        </mxCell>
+        <mxCell id="L-a12" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="User sees Chat screen&#xa;(authenticated session)" vertex="1">
+          <mxGeometry height="45" width="170" x="80" y="1250" as="geometry" />
+        </mxCell>
+        <mxCell id="L-end" parent="L1" style="ellipse;fillColor=#000000;strokeColor=#000000;strokeWidth=3;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="150" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="Le1" edge="1" parent="L1" source="L-start" style="strokeColor=#000000;strokeWidth=1.5;" target="L-a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le2" edge="1" parent="L1" source="L-a1" style="strokeColor=#000000;strokeWidth=1.5;" target="L-a2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le3" edge="1" parent="L1" source="L-a2" style="strokeColor=#000000;strokeWidth=1.5;" target="L-a3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le4" edge="1" parent="L1" source="L-a3" style="strokeColor=#000000;strokeWidth=1.5;" target="L-d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le5" edge="1" parent="L1" source="L-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="L-a-invalid" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le5b" edge="1" parent="L1" source="L-a-invalid" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;" target="L-a3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="60" y="405" />
+              <mxPoint x="60" y="312" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le6" edge="1" parent="L1" source="L-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="L-a4" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le7" edge="1" parent="L1" source="L-a4" style="strokeColor=#000000;strokeWidth=1.5;" target="L-a5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le8" edge="1" parent="L1" source="L-a5" style="strokeColor=#000000;strokeWidth=1.5;" target="L-a6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="425" y="683" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le9" edge="1" parent="L1" source="L-a6" style="strokeColor=#000000;strokeWidth=1.5;" target="L-d2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le10" edge="1" parent="L1" source="L-d2" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="L-a-err" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le11" edge="1" parent="L1" source="L-a-err" style="strokeColor=#000000;strokeWidth=1.5;" target="L-a-showerr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le11b" edge="1" parent="L1" source="L-a-showerr" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;" target="L-a3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="300" y="897" />
+              <mxPoint x="300" y="312" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le12" edge="1" parent="L1" source="L-d2" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="L-a7" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le13" edge="1" parent="L1" source="L-a7" style="strokeColor=#000000;strokeWidth=1.5;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="L-a8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="895" y="850" />
+              <mxPoint x="895" y="1008" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le14" edge="1" parent="L1" source="L-a8" style="strokeColor=#000000;strokeWidth=1.5;" target="L-a9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le15" edge="1" parent="L1" source="L-a9" style="strokeColor=#000000;strokeWidth=1.5;" target="L-a10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le16" edge="1" parent="L1" source="L-a10" style="strokeColor=#000000;strokeWidth=1.5;" target="L-a11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Le17" edge="1" parent="L1" source="L-a11" style="strokeColor=#000000;strokeWidth=1.5;" target="L-a12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="905" y="1272" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le18" edge="1" parent="L1" source="L-a12" style="strokeColor=#000000;strokeWidth=1.5;" target="L-end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="register-activity" name="Register Activity Diagram">
+    <mxGraphModel dx="1791" dy="1051" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1700" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="R0" />
+        <mxCell id="R1" parent="R0" />
+        <mxCell id="R-title" parent="R1" style="text;html=1;fontSize=20;fontStyle=1;align=center;fontColor=#000000;fillColor=none;strokeColor=none;" value="Activity Diagram: Register (Create Account)" vertex="1">
+          <mxGeometry height="40" width="460" x="220" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="R-lane-user" parent="R1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=13;strokeWidth=2;" value="User" vertex="1">
+          <mxGeometry height="1540" width="250" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="R-lane-angular" parent="R1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=13;strokeWidth=2;" value="Angular Frontend" vertex="1">
+          <mxGeometry height="1540" width="260" x="290" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="R-lane-firebase" parent="R1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=13;strokeWidth=2;" value="Firebase Auth" vertex="1">
+          <mxGeometry height="1540" width="220" x="550" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="R-lane-backend" parent="R1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=13;strokeWidth=2;" value="Spring Boot Backend" vertex="1">
+          <mxGeometry height="1540" width="250" x="770" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="R-start" parent="R1" style="ellipse;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="145" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a1" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Navigate to /register" vertex="1">
+          <mxGeometry height="40" width="150" x="85" y="207.5" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a2" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Display registration form&#xa;(firstName, lastName,&#xa;email, password,&#xa;confirmPassword)" vertex="1">
+          <mxGeometry height="65" width="185" x="330" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a3" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Fill in all fields&#xa;Click &quot;Create Account&quot;" vertex="1">
+          <mxGeometry height="45" width="155" x="90" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="R-d1" parent="R1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Form&#xa;valid?" vertex="1">
+          <mxGeometry height="80" width="100" x="370" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a-invalid" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Show validation errors&#xa;(required, minLength,&#xa;passwordMismatch)" vertex="1">
+          <mxGeometry height="55" width="175" x="80" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a4" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Set isSubmitting = true&#xa;Clear error message" vertex="1">
+          <mxGeometry height="40" width="175" x="335" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a5" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="AuthService.register()&#xa;createUserWithEmailAndPassword()" vertex="1">
+          <mxGeometry height="45" width="210" x="315" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a6" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Create new Firebase user&#xa;(email + password)" vertex="1">
+          <mxGeometry height="45" width="170" x="580" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="R-d2" parent="R1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Email&#xa;available?" vertex="1">
+          <mxGeometry height="80" width="110" x="610" y="765" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a-emailerr" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Return error&#xa;(email-already-in-use,&#xa;weak-password, etc.)" vertex="1">
+          <mxGeometry height="55" width="180" x="575" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a-showerr" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Set isSubmitting = false&#xa;Show error banner" vertex="1">
+          <mxGeometry height="45" width="175" x="340" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a7" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Return UserCredential&#xa;(user.uid, ID Token)" vertex="1">
+          <mxGeometry height="45" width="170" x="580" y="975" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a8" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="updateProfile()&#xa;Set displayName =&#xa;firstName + lastName" vertex="1">
+          <mxGeometry height="55" width="175" x="580" y="1055" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a9" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="switchMap: call&#xa;UserService.createUser()&#xa;POST /api/users" vertex="1">
+          <mxGeometry height="50" width="180" x="340" y="1060" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a10" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="UserController.createUser()&#xa;Save User entity&#xa;(firebaseUid, email,&#xa;firstName, lastName)" vertex="1">
+          <mxGeometry height="70" width="190" x="800" y="1140" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a11" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Return UserOutputDto&#xa;(201 Created)" vertex="1">
+          <mxGeometry height="40" width="170" x="810" y="1250" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a12" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="onAuthStateChanged fires&#xa;router.navigate([&#39;/chats&#39;])" vertex="1">
+          <mxGeometry height="45" width="190" x="332.5" y="1330" as="geometry" />
+        </mxCell>
+        <mxCell id="R-a13" parent="R1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="User sees Chat screen&#xa;(authenticated session)" vertex="1">
+          <mxGeometry height="45" width="170" x="80" y="1440" as="geometry" />
+        </mxCell>
+        <mxCell id="R-end" parent="R1" style="ellipse;fillColor=#000000;strokeColor=#000000;strokeWidth=3;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="150" y="1530" as="geometry" />
+        </mxCell>
+        <mxCell id="Re1" edge="1" parent="R1" source="R-start" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re2" edge="1" parent="R1" source="R-a1" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re3" edge="1" parent="R1" source="R-a2" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re4" edge="1" parent="R1" source="R-a3" style="strokeColor=#000000;strokeWidth=1.5;" target="R-d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re5" edge="1" parent="R1" source="R-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="R-a-invalid" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re5b" edge="1" parent="R1" source="R-a-invalid" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;" target="R-a3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="60" y="422" />
+              <mxPoint x="60" y="332" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Re6" edge="1" parent="R1" source="R-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="R-a4" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re7" edge="1" parent="R1" source="R-a4" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re8" edge="1" parent="R1" source="R-a5" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re9" edge="1" parent="R1" source="R-a6" style="strokeColor=#000000;strokeWidth=1.5;" target="R-d2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re10" edge="1" parent="R1" source="R-d2" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="R-a-emailerr" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re11" edge="1" parent="R1" source="R-a-emailerr" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a-showerr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re11b" edge="1" parent="R1" source="R-a-showerr" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;" target="R-a3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="300" y="912" />
+              <mxPoint x="300" y="332" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Re12" edge="1" parent="R1" source="R-d2" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="R-a7" value="Yes">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="805" />
+              <mxPoint x="750" y="997" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Re13" edge="1" parent="R1" source="R-a7" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re14" edge="1" parent="R1" source="R-a8" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re15" edge="1" parent="R1" source="R-a9" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re16" edge="1" parent="R1" source="R-a10" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re17" edge="1" parent="R1" source="R-a11" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="895" y="1355" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Re18" edge="1" parent="R1" source="R-a12" style="strokeColor=#000000;strokeWidth=1.5;" target="R-a13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Re19" edge="1" parent="R1" source="R-a13" style="strokeColor=#000000;strokeWidth=1.5;" target="R-end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

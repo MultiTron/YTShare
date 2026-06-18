@@ -1,0 +1,255 @@
+<mxfile host="app.diagrams.net" agent="Claude Code">
+  <diagram id="share-video" name="Share YouTube Video Activity">
+    <mxGraphModel dx="1475" dy="866" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="2200" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="S0" />
+        <mxCell id="S1" parent="S0" />
+        <mxCell id="S-title" parent="S1" style="text;html=1;fontSize=20;fontStyle=1;align=center;fontColor=#000000;fillColor=none;strokeColor=none;" value="Activity Diagram: Share YouTube Video from Android App to Desktop Service" vertex="1">
+          <mxGeometry height="40" width="800" x="200" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="S-lane-user" parent="S1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="User / YouTube App" vertex="1">
+          <mxGeometry height="2060" width="200" x="30" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="S-lane-android" parent="S1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="Android App (YTShare)" vertex="1">
+          <mxGeometry height="2060" width="280" x="230" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="S-lane-desktop" parent="S1" style="shape=table;startSize=40;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="Desktop Service&#xa;(http://{ip}/Share)" vertex="1">
+          <mxGeometry height="2060" width="230" x="510" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="S-lane-youtube" parent="S1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="YouTube oEmbed API" vertex="1">
+          <mxGeometry height="2060" width="220" x="740" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="S-lane-backend" parent="S1" style="shape=table;startSize=40;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=0;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="Spring Boot Backend&#xa;(PostgreSQL)" vertex="1">
+          <mxGeometry height="2060" width="240" x="960" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="S-start" parent="S1" style="ellipse;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="115" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a1" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="In YouTube app, tap&#xa;&quot;Share&quot; → select YTShare" vertex="1">
+          <mxGeometry height="45" width="175" x="42.5" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a2" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Android receives&#xa;ACTION_SEND intent&#xa;(text/plain)" vertex="1">
+          <mxGeometry height="55" width="180" x="285" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a3" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="handleSendText()&#xa;Extract EXTRA_TEXT (URL)" vertex="1">
+          <mxGeometry height="45" width="185" x="285" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="S-d1" parent="S1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Is YouTube&#xa;URL?" vertex="1">
+          <mxGeometry height="80" width="100" x="330" y="385" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a-ignore" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;fontStyle=2;" value="Ignore intent&#xa;(not saved)" vertex="1">
+          <mxGeometry height="40" width="120" x="60" y="405" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a4" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="SharedPrefHelper.saveLink()&#xa;Save URL to SharedPreferences" vertex="1">
+          <mxGeometry height="45" width="210" x="275" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a5" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="HomeScreen loads&#xa;URL pre-filled in text field&#xa;(modifyLink strips protocol&#xa;&amp; optional tracking params)" vertex="1">
+          <mxGeometry height="65" width="220" x="270" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a-alt" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;fontStyle=2;" value="Or: user opens app&#xa;manually &amp; types/pastes URL" vertex="1">
+          <mxGeometry height="45" width="165" x="55" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="S-d-ip" parent="S1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Desktop IP&#xa;configured?" vertex="1">
+          <mxGeometry height="80" width="105" x="330" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a-nsd" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="NSDHelper discovers&#xa;backend via mDNS&#xa;(_http._tcp.)&#xa;Auto-select first host" vertex="1">
+          <mxGeometry height="65" width="165" x="55" y="707.5" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a6" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="User taps &quot;Share&quot; button" vertex="1">
+          <mxGeometry height="40" width="155" x="60" y="825" as="geometry" />
+        </mxCell>
+        <mxCell id="S-d-empty" parent="S1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="URL not&#xa;empty?" vertex="1">
+          <mxGeometry height="80" width="100" x="320" y="910" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a7" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="isLoading = true&#xa;Show CircularProgressIndicator" vertex="1">
+          <mxGeometry height="45" width="205" x="267.5" y="1035" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a8" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="shareRequest()&#xa;Volley GET to:&#xa;http://{ip}/Share?link={url}" vertex="1">
+          <mxGeometry height="55" width="210" x="265" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a9" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Desktop service receives&#xa;YouTube URL&#xa;Opens video in browser" vertex="1">
+          <mxGeometry height="55" width="185" x="540" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="S-d-desktop" parent="S1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Desktop&#xa;responds?" vertex="1">
+          <mxGeometry height="80" width="105" x="315" y="1220" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a-err-conn" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Toast: &quot;Could not establish&#xa;connection with server&quot;&#xa;isLoading = false" vertex="1">
+          <mxGeometry height="55" width="180" x="45" y="1232.5" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a10" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Toast: show server response&#xa;Clear URL field&#xa;SharedPrefHelper.clearLink()" vertex="1">
+          <mxGeometry height="55" width="210" x="262.5" y="1345" as="geometry" />
+        </mxCell>
+        <mxCell id="S-fork" parent="S1" style="line;strokeColor=#000000;strokeWidth=3;fillColor=#000000;" value="" vertex="1">
+          <mxGeometry height="5" width="650" x="280" y="1440" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a11" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="saveLinkInfo()&#xa;Volley GET:&#xa;youtube.com/oembed?url={link}" vertex="1">
+          <mxGeometry height="55" width="210" x="265" y="1480" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a12" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Return JSON:&#xa;{ title, thumbnail_url, ... }" vertex="1">
+          <mxGeometry height="45" width="175" x="770" y="1485" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a13" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Parse JSON response&#xa;Extract title (max 128 chars)&#xa;Extract thumbnail_url" vertex="1">
+          <mxGeometry height="55" width="210" x="265" y="1575" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a14" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="VideoRepository.saveVideo()&#xa;POST /videos&#xa;{ title, url, thumbnailUrl }" vertex="1">
+          <mxGeometry height="55" width="210" x="265" y="1670" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a15" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="VideoController.createVideo()&#xa;VideoService → VideoMapper&#xa;Save Video entity to PostgreSQL" vertex="1">
+          <mxGeometry height="55" width="200" x="985" y="1670" as="geometry" />
+        </mxCell>
+        <mxCell id="S-d-backend" parent="S1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Backend&#xa;reachable?" vertex="1">
+          <mxGeometry height="80" width="100" x="317.5" y="1777.5" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a16" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Save to Room local DB&#xa;(synced = true)&#xa;Return VideoOutputDto" vertex="1">
+          <mxGeometry height="55" width="200" x="270" y="1895" as="geometry" />
+        </mxCell>
+        <mxCell id="S-a-fallback" parent="S1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Cache locally in Room&#xa;(synced = false)&#xa;Will sync later via&#xa;syncUnsyncedVideos()" vertex="1">
+          <mxGeometry height="65" width="180" x="42.5" y="1785" as="geometry" />
+        </mxCell>
+        <mxCell id="S-join" parent="S1" style="line;strokeColor=#000000;strokeWidth=3;fillColor=#000000;" value="" vertex="1">
+          <mxGeometry height="5" width="290" x="105" y="1980" as="geometry" />
+        </mxCell>
+        <mxCell id="S-end" parent="S1" style="ellipse;fillColor=#000000;strokeColor=#000000;strokeWidth=3;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="115" y="2040" as="geometry" />
+        </mxCell>
+        <mxCell id="Se1" edge="1" parent="S1" source="S-start" style="strokeColor=#000000;strokeWidth=1.5;" target="S-a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se2" edge="1" parent="S1" source="S-a1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a2" value="ACTION_SEND&#xa;intent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se3" edge="1" parent="S1" source="S-a2" style="strokeColor=#000000;strokeWidth=1.5;" target="S-a3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se4" edge="1" parent="S1" source="S-a3" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="S-d1" value="SharedPrefHelper&#xa;.saveLink()">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se5" edge="1" parent="S1" source="S-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a-ignore" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se6" edge="1" parent="S1" source="S-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a4" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se7" edge="1" parent="S1" source="S-a4" style="strokeColor=#000000;strokeWidth=1.5;" target="S-a5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se-alt" edge="1" parent="S1" source="S-a-alt" style="strokeColor=#000000;strokeWidth=1;dashed=1;" target="S-a5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se8" edge="1" parent="S1" source="S-a5" style="strokeColor=#000000;strokeWidth=1.5;" target="S-d-ip">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se-nsd1" edge="1" parent="S1" source="S-d-ip" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a-nsd" value="No (0.0.0.0)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se-nsd2" edge="1" parent="S1" source="S-a-nsd" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;" target="S-a6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se-ip-yes" edge="1" parent="S1" source="S-d-ip" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a6" value="Yes">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="382" y="845" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Se9" edge="1" parent="S1" source="S-a6" style="strokeColor=#000000;strokeWidth=1.5;" target="S-d-empty">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se-empty-no" edge="1" parent="S1" source="S-d-empty" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;dashed=1;labelBackgroundColor=#FFFFFF;" target="S-a5" value="No">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="495" y="950" />
+              <mxPoint x="495" y="622" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Se10" edge="1" parent="S1" source="S-d-empty" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a7" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se11" edge="1" parent="S1" source="S-a7" style="strokeColor=#000000;strokeWidth=1.5;" target="S-a8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se12" edge="1" parent="S1" source="S-a8" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a9" value="Volley GET">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se13" edge="1" parent="S1" source="S-a9" style="strokeColor=#000000;strokeWidth=1.5;" target="S-d-desktop">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se14" edge="1" parent="S1" source="S-d-desktop" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a-err-conn" value="No (error)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se-err-end" edge="1" parent="S1" source="S-a-err-conn" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;exitX=0.949;exitY=0.977;exitDx=0;exitDy=0;exitPerimeter=0;" target="S-join">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="1983" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Se15" edge="1" parent="S1" source="S-d-desktop" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a10" value="Yes (200 OK)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se16" edge="1" parent="S1" source="S-a10" style="strokeColor=#000000;strokeWidth=1.5;" target="S-fork">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se17" edge="1" parent="S1" source="S-fork" style="strokeColor=#000000;strokeWidth=1.5;" target="S-a11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="385" y="1442" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Se18" edge="1" parent="S1" source="S-a11" style="strokeColor=#000000;strokeWidth=1.5;" target="S-a12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se19" edge="1" parent="S1" source="S-a12" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;dashed=1;labelBackgroundColor=#FFFFFF;" target="S-a13" value="JSON response">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se20" edge="1" parent="S1" source="S-a13" style="strokeColor=#000000;strokeWidth=1.5;" target="S-a14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se21" edge="1" parent="S1" source="S-a14" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a15" value="POST /videos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se22" edge="1" parent="S1" source="S-a15" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;" target="S-d-backend">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1085" y="1760" />
+              <mxPoint x="500" y="1760" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Se23" edge="1" parent="S1" source="S-d-backend" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a16" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se24" edge="1" parent="S1" source="S-d-backend" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="S-a-fallback" value="No (offline)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Se25" edge="1" parent="S1" source="S-a16" style="strokeColor=#000000;strokeWidth=1.5;" target="S-join">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="370" y="1983" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Se26" edge="1" parent="S1" source="S-a-fallback" style="strokeColor=#000000;strokeWidth=1.5;" target="S-join">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="133" y="1983" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Se27" edge="1" parent="S1" source="S-join" style="strokeColor=#000000;strokeWidth=1.5;" target="S-end">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="1983" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Se-ignore-end" edge="1" parent="S1" source="S-a-ignore" style="strokeColor=#000000;strokeWidth=1;dashed=1;strokeDashPattern=8 4;" target="S-end">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="420" />
+              <mxPoint x="40" y="2055" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

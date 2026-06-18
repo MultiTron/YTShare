@@ -1,0 +1,223 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Use Case Diagram" id="usecase-page1">
+    <mxGraphModel dx="2090" dy="1227" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1300" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="uc-0" />
+        <mxCell id="uc-1" parent="uc-0" />
+        <mxCell id="uc-sys" parent="uc-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;fontSize=16;dashed=1;verticalAlign=top;fontStyle=1;spacingTop=5;arcSize=5;labelBackgroundColor=none;" value="YTShare System" vertex="1">
+          <mxGeometry height="1230" width="920" x="290" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-actor-guest" parent="uc-1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;labelBackgroundColor=none;" value="Guest&#xa;(Unregistered)" vertex="1">
+          <mxGeometry height="60" width="40" x="110" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-actor-user" parent="uc-1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;labelBackgroundColor=none;" value="Registered&#xa;User" vertex="1">
+          <mxGeometry height="60" width="40" x="110" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-actor-firebase" parent="uc-1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;labelBackgroundColor=none;" value="Firebase&#xa;Authentication" vertex="1">
+          <mxGeometry height="60" width="40" x="1370" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-actor-host" parent="uc-1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;labelBackgroundColor=none;" value="YTShare Host&#xa;(Desktop)" vertex="1">
+          <mxGeometry height="60" width="40" x="1370" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-actor-youtube" parent="uc-1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;labelBackgroundColor=none;" value="YouTube&#xa;oEmbed API" vertex="1">
+          <mxGeometry height="60" width="40" x="1370" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-actor-fcm" parent="uc-1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;labelBackgroundColor=none;" value="Firebase Cloud&#xa;Messaging" vertex="1">
+          <mxGeometry height="60" width="40" x="1370" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-lbl-auth" parent="uc-1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=5;labelBackgroundColor=none;" value="Authentication" vertex="1">
+          <mxGeometry height="30" width="140" x="310" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-lbl-video" parent="uc-1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=5;labelBackgroundColor=none;" value="Video Sharing" vertex="1">
+          <mxGeometry height="30" width="140" x="310" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-lbl-friends" parent="uc-1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=5;labelBackgroundColor=none;" value="Friends Management" vertex="1">
+          <mxGeometry height="40" width="180" x="310" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-lbl-chat" parent="uc-1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=5;labelBackgroundColor=none;" value="Chat" vertex="1">
+          <mxGeometry height="30" width="140" x="310" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-lbl-profile" parent="uc-1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=5;labelBackgroundColor=none;" value="User Profile" vertex="1">
+          <mxGeometry height="30" width="140" x="310" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-sep1" parent="uc-1" style="line;html=1;fillColor=none;strokeWidth=1;dashed=1;labelBackgroundColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="880" x="310" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-sep2" parent="uc-1" style="line;html=1;fillColor=none;strokeWidth=1;dashed=1;labelBackgroundColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="880" x="310" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-sep3" parent="uc-1" style="line;html=1;fillColor=none;strokeWidth=1;dashed=1;labelBackgroundColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="880" x="310" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-sep4" parent="uc-1" style="line;html=1;fillColor=none;strokeWidth=1;dashed=1;labelBackgroundColor=none;" value="" vertex="1">
+          <mxGeometry height="10" width="880" x="310" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-register" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Register Account" vertex="1">
+          <mxGeometry height="55" width="190" x="390" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-login" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Login" vertex="1">
+          <mxGeometry height="55" width="190" x="650" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-logout" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Logout" vertex="1">
+          <mxGeometry height="55" width="190" x="910" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-share" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Share YouTube Video&#xa;to Desktop" vertex="1">
+          <mxGeometry height="60" width="210" x="390" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-discover" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Discover LAN&#xa;Devices (NSD)" vertex="1">
+          <mxGeometry height="60" width="210" x="700" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-select-device" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Select Target&#xa;Device" vertex="1">
+          <mxGeometry height="60" width="210" x="390" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-view-history" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="View Video&#xa;History" vertex="1">
+          <mxGeometry height="60" width="210" x="700" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-sync" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Sync Offline&#xa;Videos" vertex="1">
+          <mxGeometry height="60" width="210" x="540" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-send-request" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Send Friend&#xa;Request" vertex="1">
+          <mxGeometry height="60" width="210" x="390" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-accept-reject" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Accept / Reject&#xa;Friend Request" vertex="1">
+          <mxGeometry height="60" width="210" x="700" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-remove-friend" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Remove Friend" vertex="1">
+          <mxGeometry height="60" width="210" x="390" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-view-friends" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="View Friends&#xa;List" vertex="1">
+          <mxGeometry height="60" width="210" x="700" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-open-chat" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Open / Create&#xa;Chat" vertex="1">
+          <mxGeometry height="60" width="210" x="390" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-send-msg" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Send Message" vertex="1">
+          <mxGeometry height="60" width="210" x="700" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-receive-msg" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Receive Real-time&#xa;Message" vertex="1">
+          <mxGeometry height="60" width="210" x="390" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-msg-history" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="View Message&#xa;History" vertex="1">
+          <mxGeometry height="60" width="210" x="700" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-edit-prefs" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Edit User&#xa;Preferences" vertex="1">
+          <mxGeometry height="60" width="210" x="390" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-manage-devices" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Manage Registered&#xa;Devices" vertex="1">
+          <mxGeometry height="60" width="210" x="700" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-push-notif" parent="uc-1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;labelBackgroundColor=none;" value="Receive Push&#xa;Notification" vertex="1">
+          <mxGeometry height="60" width="210" x="930" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e1" edge="1" parent="uc-1" source="uc-actor-guest" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-register">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e2" edge="1" parent="uc-1" source="uc-actor-guest" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e40" edge="1" parent="uc-1" source="uc-actor-guest" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-share">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e41" edge="1" parent="uc-1" source="uc-actor-guest" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-discover">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e42" edge="1" parent="uc-1" source="uc-actor-guest" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-select-device">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e43" edge="1" parent="uc-1" source="uc-actor-guest" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-view-history">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e3" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-logout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e4" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-share">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e5" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-discover">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e6" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-select-device">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e7" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-view-history">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e8" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-sync">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e9" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-send-request">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e10" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-accept-reject">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e11" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-remove-friend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e12" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-view-friends">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e13" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-open-chat">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e14" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-send-msg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e15" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-receive-msg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e16" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-msg-history">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e17" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-edit-prefs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e18" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-manage-devices">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e19" edge="1" parent="uc-1" source="uc-actor-user" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-push-notif">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e20" edge="1" parent="uc-1" source="uc-actor-firebase" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-register">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e21" edge="1" parent="uc-1" source="uc-actor-firebase" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e22" edge="1" parent="uc-1" source="uc-actor-firebase" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-logout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e23" edge="1" parent="uc-1" source="uc-actor-host" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-share">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e24" edge="1" parent="uc-1" source="uc-actor-host" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-discover">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e25" edge="1" parent="uc-1" source="uc-actor-youtube" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-share">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e26" edge="1" parent="uc-1" source="uc-actor-youtube" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-view-history">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e27" edge="1" parent="uc-1" source="uc-actor-fcm" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-push-notif">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e28" edge="1" parent="uc-1" source="uc-actor-fcm" style="endArrow=none;html=1;labelBackgroundColor=none;fontColor=default;" target="uc-send-msg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e30" edge="1" parent="uc-1" source="uc-share" style="endArrow=open;html=1;dashed=1;endSize=10;labelBackgroundColor=none;fontColor=default;fontSize=10;" target="uc-select-device" value="&amp;laquo;include&amp;raquo;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e31" edge="1" parent="uc-1" source="uc-share" style="endArrow=open;html=1;dashed=1;endSize=10;labelBackgroundColor=none;fontColor=default;fontSize=10;" target="uc-discover" value="&amp;laquo;include&amp;raquo;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e32" edge="1" parent="uc-1" source="uc-push-notif" style="endArrow=open;html=1;dashed=1;endSize=10;labelBackgroundColor=none;fontColor=default;fontSize=10;" target="uc-receive-msg" value="&amp;laquo;extend&amp;raquo;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-e33" edge="1" parent="uc-1" source="uc-sync" style="endArrow=open;html=1;dashed=1;endSize=10;labelBackgroundColor=none;fontColor=default;fontSize=10;" target="uc-share" value="&amp;laquo;extend&amp;raquo;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,557 @@
+<mxfile host="app.diagrams.net" agent="Claude Code" pages="2">
+  <diagram id="friends-flow" name="1. Friendship Management">
+    <mxGraphModel dx="4883" dy="2103" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="2400" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="F0" />
+        <mxCell id="F1" parent="F0" />
+        <mxCell id="F-title" parent="F1" style="text;html=1;fontSize=19;fontStyle=1;align=center;fontColor=#000000;fillColor=none;strokeColor=none;" value="Activity Diagram: Friendship Management (Add / Accept / Reject / Remove)" vertex="1">
+          <mxGeometry height="40" width="700" x="170" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="F-lane-user" parent="F1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="User" vertex="1">
+          <mxGeometry height="2120" width="200" x="30" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="F-lane-android" parent="F1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="Android App (FriendsScreen)" vertex="1">
+          <mxGeometry height="2120" width="300" x="230" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="F-lane-backend" parent="F1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="Spring Boot Backend" vertex="1">
+          <mxGeometry height="2120" width="280" x="530" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="F-lane-db" parent="F1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="PostgreSQL" vertex="1">
+          <mxGeometry height="2120" width="200" x="810" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="F-start" parent="F1" style="ellipse;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="115" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a1" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Tap &quot;Chat&quot; tab&#xa;in bottom navigation" vertex="1">
+          <mxGeometry height="45" width="160" x="50" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a2" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="FriendsViewModel.loadData()&#xa;isLoading = true" vertex="1">
+          <mxGeometry height="45" width="210" x="280" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a3" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="GET /users/me&#xa;GET /friendships/user/{id}/status?status=ACCEPTED&#xa;GET /friendships/user/{id}/status?status=PENDING" vertex="1">
+          <mxGeometry height="60" width="240" x="555" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a4" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Query User,&#xa;Friendship tables" vertex="1">
+          <mxGeometry height="45" width="140" x="845" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a5" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Display FriendsScreen:&#xa;- PENDING REQUESTS section&#xa;  (Accept / Reject buttons)&#xa;- FRIENDS section&#xa;  (tap → chat, long-press → remove)&#xa;- PersonAdd icon in toolbar" vertex="1">
+          <mxGeometry height="90" width="230" x="270" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="F-d1" parent="F1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="User&#xa;action?" vertex="1">
+          <mxGeometry height="80" width="100" x="80" y="445" as="geometry" />
+        </mxCell>
+        <mxCell id="F-header-a" parent="F1" style="text;html=1;fontSize=11;fontStyle=3;fontColor=#666666;fillColor=none;strokeColor=none;align=center;" value="--- Send Friend Request ---" vertex="1">
+          <mxGeometry height="20" width="200" x="50" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a6" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Tap PersonAdd (+) icon" vertex="1">
+          <mxGeometry height="35" width="155" x="55" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a7" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Show AddFriendDialog&#xa;(email input field)" vertex="1">
+          <mxGeometry height="45" width="200" x="283" y="585" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a8" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Enter friend&#39;s email&#xa;Tap &quot;Send Request&quot;" vertex="1">
+          <mxGeometry height="45" width="155" x="55" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="F-d-self" parent="F1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Own&#xa;email?" vertex="1">
+          <mxGeometry height="60" width="80" x="333" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a-self-err" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;fontStyle=2;" value="Snackbar: &quot;You can&#39;t&#xa;add yourself as a friend&quot;" vertex="1">
+          <mxGeometry height="35" width="210" x="268" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a9" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="ChatRepository.sendFriendRequest()&#xa;GET /users/by-email?email={email}&#xa;POST /friendships {userId, friendId, PENDING}" vertex="1">
+          <mxGeometry height="55" width="260" x="545" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="F-d-found" parent="F1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="User&#xa;found?" vertex="1">
+          <mxGeometry height="60" width="80" x="635" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a10" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Save Friendship&#xa;(status = PENDING)" vertex="1">
+          <mxGeometry height="45" width="140" x="845" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a-notfound" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;fontStyle=2;" value="Snackbar: &quot;No user found&#xa;with that email&quot;" vertex="1">
+          <mxGeometry height="35" width="190" x="555" y="845" as="geometry" />
+        </mxCell>
+        <mxCell id="F-a-sent" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Snackbar: &quot;Friend request sent!&quot;&#xa;Reload friends list" vertex="1">
+          <mxGeometry height="35" width="200" x="278" y="845" as="geometry" />
+        </mxCell>
+        <mxCell id="F-header-b" parent="F1" style="text;html=1;fontSize=11;fontStyle=3;fontColor=#666666;fillColor=none;strokeColor=none;align=center;" value="--- Accept Incoming Request ---" vertex="1">
+          <mxGeometry height="20" width="210" x="35" y="930" as="geometry" />
+        </mxCell>
+        <mxCell id="F-b1" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Tap &quot;Accept&quot; on&#xa;incoming pending request" vertex="1">
+          <mxGeometry height="45" width="175" x="45" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="F-b2" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="FriendsViewModel.acceptRequest()&#xa;ChatRepository.acceptFriendRequest()" vertex="1">
+          <mxGeometry height="45" width="230" x="268" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="F-b3" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="PATCH /friendships/{id}/status&#xa;?status=ACCEPTED" vertex="1">
+          <mxGeometry height="45" width="230" x="560" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="F-b4" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Update Friendship&#xa;status → ACCEPTED" vertex="1">
+          <mxGeometry height="45" width="140" x="845" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="F-b5" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Reload list&#xa;Friend moves from&#xa;PENDING → FRIENDS section" vertex="1">
+          <mxGeometry height="50" width="200" x="278" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="F-header-c" parent="F1" style="text;html=1;fontSize=11;fontStyle=3;fontColor=#666666;fillColor=none;strokeColor=none;align=center;" value="--- Reject Incoming Request ---" vertex="1">
+          <mxGeometry height="20" width="210" x="35" y="1130" as="geometry" />
+        </mxCell>
+        <mxCell id="F-c1" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Tap &quot;Reject&quot; on&#xa;incoming pending request" vertex="1">
+          <mxGeometry height="45" width="175" x="45" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="F-c2" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="FriendsViewModel.rejectRequest()&#xa;ChatRepository.rejectFriendRequest()" vertex="1">
+          <mxGeometry height="45" width="230" x="268" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="F-c3" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="PATCH /friendships/{id}/status&#xa;?status=REJECTED" vertex="1">
+          <mxGeometry height="45" width="230" x="560" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="F-c4" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Update Friendship&#xa;status → REJECTED" vertex="1">
+          <mxGeometry height="45" width="140" x="845" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="F-c5" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Reload list&#xa;Request removed from&#xa;PENDING section" vertex="1">
+          <mxGeometry height="50" width="200" x="278" y="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="F-header-d" parent="F1" style="text;html=1;fontSize=11;fontStyle=3;fontColor=#666666;fillColor=none;strokeColor=none;align=center;" value="--- Remove Friend ---" vertex="1">
+          <mxGeometry height="20" width="210" x="35" y="1330" as="geometry" />
+        </mxCell>
+        <mxCell id="F-d1b" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Long-press on friend&#xa;in FRIENDS list" vertex="1">
+          <mxGeometry height="45" width="165" x="50" y="1360" as="geometry" />
+        </mxCell>
+        <mxCell id="F-d2b" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Show AlertDialog:&#xa;&quot;Remove {name}&#xa;from your friends?&quot;" vertex="1">
+          <mxGeometry height="55" width="200" x="283" y="1355" as="geometry" />
+        </mxCell>
+        <mxCell id="F-d-confirm" parent="F1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Confirm?" vertex="1">
+          <mxGeometry height="65" width="85" x="90" y="1445" as="geometry" />
+        </mxCell>
+        <mxCell id="F-d3" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="FriendsViewModel.removeFriend()&#xa;ChatRepository.removeFriend()" vertex="1">
+          <mxGeometry height="45" width="230" x="268" y="1448" as="geometry" />
+        </mxCell>
+        <mxCell id="F-d4" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="DELETE /friendships/{id}" vertex="1">
+          <mxGeometry height="40" width="200" x="575" y="1448" as="geometry" />
+        </mxCell>
+        <mxCell id="F-d5" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Delete Friendship&#xa;record" vertex="1">
+          <mxGeometry height="45" width="140" x="845" y="1445" as="geometry" />
+        </mxCell>
+        <mxCell id="F-d6" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Reload list&#xa;Friend removed" vertex="1">
+          <mxGeometry height="35" width="165" x="298" y="1530" as="geometry" />
+        </mxCell>
+        <mxCell id="F-header-e" parent="F1" style="text;html=1;fontSize=11;fontStyle=3;fontColor=#666666;fillColor=none;strokeColor=none;align=center;" value="--- Open Conversation ---" vertex="1">
+          <mxGeometry height="20" width="210" x="35" y="1610" as="geometry" />
+        </mxCell>
+        <mxCell id="F-e1" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Tap on friend&#xa;in FRIENDS list" vertex="1">
+          <mxGeometry height="45" width="155" x="55" y="1645" as="geometry" />
+        </mxCell>
+        <mxCell id="F-e2" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Navigate to&#xa;conversation/{friendId}&#xa;/{firstName}/{lastName}" vertex="1">
+          <mxGeometry height="55" width="200" x="278" y="1640" as="geometry" />
+        </mxCell>
+        <mxCell id="F-e3" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="ConversationViewModel.load()&#xa;getOrCreateChat(friendId)&#xa;GET /chats/all → find existing&#xa;or POST /chats {participantIds}" vertex="1">
+          <mxGeometry height="65" width="240" x="555" y="1720" as="geometry" />
+        </mxCell>
+        <mxCell id="F-e4" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Find or create&#xa;Chat record&#xa;with participants" vertex="1">
+          <mxGeometry height="55" width="140" x="845" y="1720" as="geometry" />
+        </mxCell>
+        <mxCell id="F-e5" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="GET /messages/chat/{chatId}&#xa;Load message history" vertex="1">
+          <mxGeometry height="45" width="225" x="560" y="1820" as="geometry" />
+        </mxCell>
+        <mxCell id="F-e6" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="STOMP subscribe&#xa;/topic/chat/{chatId}&#xa;(real-time messages)" vertex="1">
+          <mxGeometry height="50" width="200" x="278" y="1830" as="geometry" />
+        </mxCell>
+        <mxCell id="F-e7" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Display ConversationScreen:&#xa;Message bubbles (own = red,&#xa;other = dark gray)&#xa;Input field + Send button" vertex="1">
+          <mxGeometry height="65" width="210" x="273" y="1920" as="geometry" />
+        </mxCell>
+        <mxCell id="F-e8" parent="F1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="User sees conversation&#xa;with friend" vertex="1">
+          <mxGeometry height="45" width="155" x="55" y="1935" as="geometry" />
+        </mxCell>
+        <mxCell id="F-merge" parent="F1" style="rhombus;fillColor=#000000;strokeColor=#000000;size=6;" value="" vertex="1">
+          <mxGeometry height="25" width="25" x="118" y="2070" as="geometry" />
+        </mxCell>
+        <mxCell id="F-end" parent="F1" style="ellipse;fillColor=#000000;strokeColor=#000000;strokeWidth=3;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="115" y="2150" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe1" edge="1" parent="F1" source="F-start" style="strokeColor=#000000;strokeWidth=1.5;" target="F-a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe2" edge="1" parent="F1" source="F-a1" style="strokeColor=#000000;strokeWidth=1.5;" target="F-a2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe3" edge="1" parent="F1" source="F-a2" style="strokeColor=#000000;strokeWidth=1.5;" target="F-a3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe4" edge="1" parent="F1" source="F-a3" style="strokeColor=#000000;strokeWidth=1.5;" target="F-a4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe5" edge="1" parent="F1" source="F-a4" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;" target="F-a5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="915" y="280" />
+              <mxPoint x="385" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fe6" edge="1" parent="F1" source="F-a5" style="strokeColor=#000000;strokeWidth=1.5;" target="F-d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe-add" edge="1" parent="F1" source="F-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="F-a6" value="Add friend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe7" edge="1" parent="F1" source="F-a6" style="strokeColor=#000000;strokeWidth=1.5;" target="F-a7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe8" edge="1" parent="F1" source="F-a7" style="strokeColor=#000000;strokeWidth=1.5;" target="F-a8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe9" edge="1" parent="F1" source="F-a8" style="strokeColor=#000000;strokeWidth=1.5;" target="F-d-self">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe10" edge="1" parent="F1" source="F-d-self" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="F-a-self-err" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe11" edge="1" parent="F1" source="F-d-self" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="F-a9" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe12" edge="1" parent="F1" source="F-a9" style="strokeColor=#000000;strokeWidth=1.5;" target="F-a10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe13" edge="1" parent="F1" source="F-a9" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;" target="F-d-found">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe14" edge="1" parent="F1" source="F-d-found" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="F-a-notfound" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe15" edge="1" parent="F1" source="F-d-found" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="F-a-sent" value="Yes">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="635" y="830" />
+              <mxPoint x="500" y="830" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fe-sent-m" edge="1" parent="F1" source="F-a-sent" style="strokeColor=#000000;strokeWidth=1;dashed=1;" target="F-merge">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="862" />
+              <mxPoint x="250" y="2082" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fe-self-m" edge="1" parent="F1" source="F-a-self-err" style="strokeColor=#000000;strokeWidth=1;dashed=1;" target="F-merge">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="767" />
+              <mxPoint x="250" y="2082" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fe-notf-m" edge="1" parent="F1" source="F-a-notfound" style="strokeColor=#000000;strokeWidth=1;dashed=1;" target="F-merge">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="862" />
+              <mxPoint x="520" y="2082" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fe-accept" edge="1" parent="F1" source="F-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="F-b1" value="Accept request">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="485" />
+              <mxPoint x="40" y="982" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Feb1" edge="1" parent="F1" source="F-b1" style="strokeColor=#000000;strokeWidth=1.5;" target="F-b2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Feb2" edge="1" parent="F1" source="F-b2" style="strokeColor=#000000;strokeWidth=1.5;" target="F-b3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Feb3" edge="1" parent="F1" source="F-b3" style="strokeColor=#000000;strokeWidth=1.5;" target="F-b4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Feb4" edge="1" parent="F1" source="F-b4" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;" target="F-b5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="915" y="1030" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Feb5" edge="1" parent="F1" source="F-b5" style="strokeColor=#000000;strokeWidth=1;dashed=1;" target="F-merge">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="1065" />
+              <mxPoint x="250" y="2082" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fe-reject" edge="1" parent="F1" source="F-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="F-c1" value="Reject request">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint y="485" />
+              <mxPoint y="1180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fec1" edge="1" parent="F1" source="F-c1" style="strokeColor=#000000;strokeWidth=1.5;" target="F-c2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fec2" edge="1" parent="F1" source="F-c2" style="strokeColor=#000000;strokeWidth=1.5;" target="F-c3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fec3" edge="1" parent="F1" source="F-c3" style="strokeColor=#000000;strokeWidth=1.5;" target="F-c4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fec4" edge="1" parent="F1" source="F-c4" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;" target="F-c5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="915" y="1250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fec5" edge="1" parent="F1" source="F-c5" style="strokeColor=#000000;strokeWidth=1;dashed=1;" target="F-merge">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="1265" />
+              <mxPoint x="250" y="2082" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fe-remove" edge="1" parent="F1" source="F-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="F-d1b" value="Remove friend">
+          <mxGeometry relative="1" x="-0.0323" y="-40" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-30" y="485" />
+              <mxPoint x="-30" y="1380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fed1" edge="1" parent="F1" source="F-d1b" style="strokeColor=#000000;strokeWidth=1.5;" target="F-d2b">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fed2" edge="1" parent="F1" source="F-d2b" style="strokeColor=#000000;strokeWidth=1.5;" target="F-d-confirm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fed-no" edge="1" parent="F1" source="F-d-confirm" style="strokeColor=#000000;strokeWidth=1;dashed=1;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="F-merge" value="Cancel">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="15" y="1477" />
+              <mxPoint x="15" y="2082" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fed3" edge="1" parent="F1" source="F-d-confirm" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="F-d3" value="Remove">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fed4" edge="1" parent="F1" source="F-d3" style="strokeColor=#000000;strokeWidth=1.5;" target="F-d4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fed5" edge="1" parent="F1" source="F-d4" style="strokeColor=#000000;strokeWidth=1.5;" target="F-d5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fed6" edge="1" parent="F1" source="F-d5" style="strokeColor=#000000;strokeWidth=1.5;dashed=1;" target="F-d6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="915" y="1540" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fed7" edge="1" parent="F1" source="F-d6" style="strokeColor=#000000;strokeWidth=1;dashed=1;" target="F-merge">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="1547" />
+              <mxPoint x="250" y="2082" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fe-chat" edge="1" parent="F1" source="F-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="F-e1" value="Open chat">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="130" y="540" />
+              <mxPoint x="130" y="1645" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Fee1" edge="1" parent="F1" source="F-e1" style="strokeColor=#000000;strokeWidth=1.5;" target="F-e2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fee2" edge="1" parent="F1" source="F-e2" style="strokeColor=#000000;strokeWidth=1.5;" target="F-e3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fee3" edge="1" parent="F1" source="F-e3" style="strokeColor=#000000;strokeWidth=1.5;" target="F-e4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fee4" edge="1" parent="F1" source="F-e3" style="strokeColor=#000000;strokeWidth=1.5;" target="F-e5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fee5" edge="1" parent="F1" source="F-e5" style="strokeColor=#000000;strokeWidth=1.5;" target="F-e6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fee6" edge="1" parent="F1" source="F-e6" style="strokeColor=#000000;strokeWidth=1.5;" target="F-e7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fee7" edge="1" parent="F1" source="F-e7" style="strokeColor=#000000;strokeWidth=1.5;" target="F-e8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fee8" edge="1" parent="F1" source="F-e8" style="strokeColor=#000000;strokeWidth=1.5;" target="F-merge">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fe-end" edge="1" parent="F1" source="F-merge" style="strokeColor=#000000;strokeWidth=1.5;" target="F-end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="chat-messaging" name="2. Send &amp; Receive Messages">
+    <mxGraphModel dx="1672" dy="981" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1600" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="M0" />
+        <mxCell id="M1" parent="M0" />
+        <mxCell id="M-title" parent="M1" style="text;html=1;fontSize=19;fontStyle=1;align=center;fontColor=#000000;fillColor=none;strokeColor=none;" value="Activity Diagram: Send &amp; Receive Chat Messages (Real-Time)" vertex="1">
+          <mxGeometry height="40" width="650" x="250" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="M-lane-sender" parent="M1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="Sender (User A)" vertex="1">
+          <mxGeometry height="1330" width="220" x="30" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="M-lane-app" parent="M1" style="shape=table;startSize=40;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="Android App&#xa;(ConversationScreen)" vertex="1">
+          <mxGeometry height="1330" width="280" x="250" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="M-lane-backend" parent="M1" style="shape=table;startSize=40;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="Spring Boot Backend&#xa;(MessageService + STOMP)" vertex="1">
+          <mxGeometry height="1330" width="280" x="530" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="M-lane-receiver" parent="M1" style="shape=table;startSize=30;container=0;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=12;strokeWidth=2;" value="Receiver (User B)" vertex="1">
+          <mxGeometry height="1330" width="260" x="810" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="M-start" parent="M1" style="ellipse;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="125" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a1" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Type message in input field&#xa;Tap Send button" vertex="1">
+          <mxGeometry height="45" width="185" x="48" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="M-d1" parent="M1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Text not&#xa;blank?" vertex="1">
+          <mxGeometry height="70" width="90" x="345" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a2" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="ConversationViewModel&#xa;.sendMessage(content)&#xa;Clear input field" vertex="1">
+          <mxGeometry height="55" width="210" x="290" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a3" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="ChatRepository.sendMessage()&#xa;POST /messages&#xa;{content, status:SENT,&#xa;chatId, senderId}" vertex="1">
+          <mxGeometry height="65" width="230" x="558" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a4" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="MessageService.createMessage()&#xa;Resolve Chat &amp; Sender entities&#xa;Save Message to PostgreSQL" vertex="1">
+          <mxGeometry height="55" width="235" x="555" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="M-fork" parent="M1" style="line;strokeColor=#000000;strokeWidth=3;fillColor=#000000;" value="" vertex="1">
+          <mxGeometry height="5" width="500" x="555" y="595" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a5" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="SimpMessagingTemplate&#xa;.convertAndSend()&#xa;→ /topic/chat/{chatId}&#xa;(broadcast MessageOutputDto)" vertex="1">
+          <mxGeometry height="65" width="235" x="555" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a6" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Get recipient DeviceTokens&#xa;FcmService.sendPushNotification()&#xa;(senderName, content,&#xa;chatId, senderId)" vertex="1">
+          <mxGeometry height="65" width="235" x="555" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="M-d-online" parent="M1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="User B&#xa;online?" vertex="1">
+          <mxGeometry height="70" width="95" x="895" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a7" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="StompSessionManager receives&#xa;STOMP MESSAGE on&#xa;/topic/chat/{chatId}&#xa;&#xa;ConversationViewModel adds&#xa;message to list (deduplication)" vertex="1">
+          <mxGeometry height="90" width="220" x="835" y="770" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a8" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Android system notification&#xa;via Firebase Cloud Messaging&#xa;(YTShareFirebaseMessagingService)" vertex="1">
+          <mxGeometry height="55" width="220" x="832.5" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a9" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Sender&#39;s StompSessionManager&#xa;also receives STOMP message&#xa;→ message appears in own chat&#xa;(red bubble, right-aligned)" vertex="1">
+          <mxGeometry height="70" width="210" x="290" y="870" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a10" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="LazyColumn auto-scrolls&#xa;to latest message&#xa;(animateScrollToItem)" vertex="1">
+          <mxGeometry height="50" width="210" x="290" y="980" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a11" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="Message appears in User B&#39;s&#xa;ConversationScreen&#xa;(dark gray bubble, left-aligned)" vertex="1">
+          <mxGeometry height="55" width="220" x="832.5" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a12" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Sender sees own message&#xa;in conversation" vertex="1">
+          <mxGeometry height="45" width="170" x="55" y="1070" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a13" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;" value="User taps Back button&#xa;→ viewModel.unsubscribe()&#xa;Cancel STOMP subscription" vertex="1">
+          <mxGeometry height="55" width="210" x="290" y="1170" as="geometry" />
+        </mxCell>
+        <mxCell id="M-a14" parent="M1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=11;" value="Navigate back to&#xa;FriendsScreen" vertex="1">
+          <mxGeometry height="40" width="170" x="55" y="1250" as="geometry" />
+        </mxCell>
+        <mxCell id="M-end" parent="M1" style="ellipse;fillColor=#000000;strokeColor=#000000;strokeWidth=3;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="125" y="1350" as="geometry" />
+        </mxCell>
+        <mxCell id="Me1" edge="1" parent="M1" source="M-start" style="strokeColor=#000000;strokeWidth=1.5;" target="M-a1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me2" edge="1" parent="M1" source="M-a1" style="strokeColor=#000000;strokeWidth=1.5;" target="M-d1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me3" edge="1" parent="M1" source="M-d1" style="strokeColor=#000000;strokeWidth=1;dashed=1;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="M-a1" value="No">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="315" />
+              <mxPoint x="440" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Me4" edge="1" parent="M1" source="M-d1" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=10;labelBackgroundColor=#FFFFFF;" target="M-a2" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me5" edge="1" parent="M1" source="M-a2" style="strokeColor=#000000;strokeWidth=1.5;" target="M-a3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me6" edge="1" parent="M1" source="M-a3" style="strokeColor=#000000;strokeWidth=1.5;" target="M-a4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me7" edge="1" parent="M1" source="M-a4" style="strokeColor=#000000;strokeWidth=1.5;" target="M-fork">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me8" edge="1" parent="M1" source="M-fork" style="strokeColor=#000000;strokeWidth=1.5;exitX=0.229;exitY=0.556;exitDx=0;exitDy=0;exitPerimeter=0;" target="M-a5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="672" y="597" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Me9" edge="1" parent="M1" source="M-a5" style="strokeColor=#000000;strokeWidth=1.5;" target="M-a6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me10" edge="1" parent="M1" source="M-fork" style="strokeColor=#000000;strokeWidth=1.5;exitX=0.772;exitY=-0.422;exitDx=0;exitDy=0;exitPerimeter=0;" target="M-d-online">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="942" y="597" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Me11" edge="1" parent="M1" source="M-d-online" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="M-a7" value="Yes&#xa;(subscribed)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me12" edge="1" parent="M1" source="M-d-online" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="M-a8" value="No&#xa;(offline)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1080" y="675" />
+              <mxPoint x="1080" y="1030" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Me13" edge="1" parent="M1" source="M-a5" style="strokeColor=#000000;strokeWidth=1.5;fontColor=#000000;fontSize=9;labelBackgroundColor=#FFFFFF;" target="M-a9" value="STOMP message&#xa;back to sender">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="395" y="673" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Me14" edge="1" parent="M1" source="M-a9" style="strokeColor=#000000;strokeWidth=1.5;" target="M-a10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me15" edge="1" parent="M1" source="M-a7" style="strokeColor=#000000;strokeWidth=1.5;" target="M-a11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me16" edge="1" parent="M1" source="M-a10" style="strokeColor=#000000;strokeWidth=1.5;" target="M-a12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me17" edge="1" parent="M1" source="M-a12" style="strokeColor=#000000;strokeWidth=1.5;" target="M-a13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me18" edge="1" parent="M1" source="M-a13" style="strokeColor=#000000;strokeWidth=1.5;" target="M-a14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Me19" edge="1" parent="M1" source="M-a14" style="strokeColor=#000000;strokeWidth=1.5;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="M-end">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="183.78378378378397" y="1360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
