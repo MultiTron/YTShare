@@ -40,7 +40,44 @@
       "Bash(git -C \"C:\\\\Users\\\\iliev\\\\Desktop\\\\YTShare\" add \"YTShare.Android/app/src/main/java/iliev/yt/share/mobile/ui/screens/auth/AuthState.kt\")",
       "Bash(git -C \"C:\\\\Users\\\\iliev\\\\Desktop\\\\YTShare\" commit -m \"feat: add AuthState sealed class\")",
       "Bash(./gradlew compileDebugKotlin)",
-      "PowerShell(\\(Get-Command gradle -ErrorAction SilentlyContinue\\) | Select-Object -ExpandProperty Source)"
+      "PowerShell(\\(Get-Command gradle -ErrorAction SilentlyContinue\\) | Select-Object -ExpandProperty Source)",
+      "Bash(./mvnw -q test -Dtest='UserServiceTest,VideoServiceTest,ChatServiceTest,MessageServiceTest,FriendshipServiceTest,DeviceServiceTest,DeviceTokenServiceTest,UserPreferencesServiceTest,FcmServiceTest' -DfailIfNoTests=false)",
+      "Bash(./mvnw test *)",
+      "Bash(echo \"MAVEN_EXIT=$?\")",
+      "Read(//tmp/**)",
+      "Bash(pip install *)",
+      "Bash(python -c \"import docx; print\\('ok', docx.__version__\\)\")",
+      "Bash(python -m pip install python-docx --quiet)",
+      "Bash(sed 's|doc.save\\(SRC\\)|doc.save\\(r\"G:\\\\\\\\My Drive\\\\\\\\Дипломна работа - YTShare \\(с описания\\).docx\"\\)|' insert.py)",
+      "Bash(PYTHONUTF8=1 python insert2.py)",
+      "Bash(PYTHONUTF8=1 python insert.py)",
+      "Read(//g/My Drive//**)",
+      "Bash(git rev-parse *)",
+      "Bash(cat \"$\\(git rev-parse --git-path sdd\\)/progress.md\")",
+      "Bash(docker info *)",
+      "Bash(podman machine *)",
+      "Bash(./mvnw *)",
+      "Bash(./mvnw -q -Dtest=GlobalExceptionHandlerTest test)",
+      "Bash(echo \"EXIT_CODE=$?\")",
+      "Bash(unzip -o -q /c/Users/Ivaylo.Iliev/.m2/repository/org/springframework/spring-messaging/7.0.2/spring-messaging-7.0.2-sources.jar -d src)",
+      "Bash(xargs grep -n \"leaveMutable\\\\|public static StompHeaderAccessor create\\\\|protected StompHeaderAccessor\")",
+      "Bash(./mvnw -q -Dtest=WebSocketAuthInterceptorTest test)",
+      "Bash(./mvnw -Dtest=WebSocketConfigTest test)",
+      "Bash([ -f \"$F\" ])",
+      "Bash(printf 'docker.host=npipe:////./pipe/podman-machine\\\\nryuk.disabled=true\\\\n')",
+      "Read(//c/Users/Ivaylo.Iliev/**)",
+      "Bash(podman pull *)",
+      "Bash(env)",
+      "PowerShell(Get-DnsClientServerAddress *)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "mco-prompts",
+    "bitbucket",
+    "confluence",
+    "jira",
+    "gitlab",
+    "context7",
+    "playwright"
+  ]
 }
