@@ -20,6 +20,7 @@
 - Repo: `MultiTron/YTShare` (public). Landing-page download URL: `https://github.com/MultiTron/YTShare/releases/latest/download/YTShareHostSetup.exe`.
 - `Bonjour64.msi` is **user-supplied** (Apple Bonjour SDK for Windows) and must **never** be committed to git.
 - Code signing is out of scope.
+- **Build with Visual Studio MSBuild, NOT the `dotnet` CLI.** The project has a `COMReference` to Bonjour, which `dotnet build`/`dotnet publish` cannot resolve (error MSB4803 — `ResolveComReference` requires .NET Framework MSBuild). Locate MSBuild via vswhere: `"${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find "MSBuild\**\Bin\MSBuild.exe"`. Restore must run with the RID (`/t:Restore,Publish` with `/p:RuntimeIdentifier=win-x64`), or restore errors with NETSDK1047.
 
 ## File Structure
 
@@ -54,13 +55,15 @@ In `YTShare.Host/YTShare.Server/YTShare.Server.csproj`, edit the first `<Propert
   </PropertyGroup>
 ```
 
-- [ ] **Step 2: Verify it still builds**
+- [ ] **Step 2: Verify it still builds (with VS MSBuild — see Global Constraints)**
 
-Run (from `YTShare.Host/YTShare.Server`):
+Do NOT use `dotnet build` (fails with MSB4803 on the Bonjour COMReference). Locate and run VS MSBuild:
 ```powershell
-dotnet build -c Release
+$msbuild = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find "MSBuild\**\Bin\MSBuild.exe" | Select-Object -First 1
+& $msbuild "C:\Users\iliev\Desktop\YTShare\YTShare.Host\YTShare.Server\YTShare.Server.csproj" /t:Restore,Build /p:Configuration=Release /v:minimal /nologo
+"EXITCODE=$LASTEXITCODE"
 ```
-Expected: `Build succeeded`, 0 errors. (Kestrel runs without a console; the build must not complain about `WinExe`.)
+Expected: `EXITCODE=0` and a line `YTShare.Server -> ...\bin\Release\net8.0\YTShare.Server.dll`. The Bonjour `COMReference` must remain intact in `Program.cs` and the `.csproj` — do not remove it.
 
 - [ ] **Step 3: Commit**
 
@@ -202,11 +205,12 @@ Note in your own records: **replace this placeholder with the real Apple `Bonjou
 
 - [ ] **Step 4: Verify the script compiles**
 
-First publish the app so the `[Files]` source exists (from `YTShare.Host/YTShare.Server`):
+First publish the app so the `[Files]` source exists, using VS MSBuild (NOT `dotnet` — see Global Constraints):
 ```powershell
-dotnet publish -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
+$msbuild = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find "MSBuild\**\Bin\MSBuild.exe" | Select-Object -First 1
+& $msbuild "C:\Users\iliev\Desktop\YTShare\YTShare.Host\YTShare.Server\YTShare.Server.csproj" /t:Restore,Publish /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:PublishSingleFile=true /v:minimal /nologo
 ```
-Expected: publish output appears at `bin/Release/net8.0/win-x64/publish/`.
+Expected: `EXITCODE=0`; publish output appears at `bin/Release/net8.0/win-x64/publish/` with `YTShare.Server.exe` (~89 MB, self-contained).
 
 Then compile the installer (from `YTShare.Host/installer`):
 ```powershell
@@ -257,6 +261,7 @@ $project = Join-Path $root '..\YTShare.Server\YTShare.Server.csproj'
 $iss     = Join-Path $root 'YTShareHost.iss'
 $msi     = Join-Path $root 'redist\Bonjour64.msi'
 $iscc    = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+$vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 
 if (-not (Test-Path $msi)) {
     throw "Missing $msi. Place the Apple Bonjour64.msi (Bonjour SDK for Windows) there before building."
@@ -264,10 +269,17 @@ if (-not (Test-Path $msi)) {
 if (-not (Test-Path $iscc)) {
     throw "Inno Setup 6 not found at $iscc. Install it from https://jrsoftware.org/isdl.php"
 }
+if (-not (Test-Path $vswhere)) {
+    throw "vswhere not found at $vswhere. Install Visual Studio (with MSBuild) — the dotnet CLI cannot build the Bonjour COMReference."
+}
 
-Write-Host 'Publishing YTShare.Server (self-contained, single-file, win-x64)...'
-dotnet publish $project -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
-if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed ($LASTEXITCODE)" }
+# The project's Bonjour COMReference requires full VS MSBuild; dotnet build/publish fails with MSB4803.
+$msbuild = & $vswhere -latest -requires Microsoft.Component.MSBuild -find 'MSBuild\**\Bin\MSBuild.exe' | Select-Object -First 1
+if (-not $msbuild) { throw 'MSBuild.exe not found via vswhere. Ensure the MSBuild component is installed with Visual Studio.' }
+
+Write-Host "Publishing YTShare.Server (self-contained, single-file, win-x64) via $msbuild ..."
+& $msbuild $project /t:Restore,Publish /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:PublishSingleFile=true /v:minimal /nologo
+if ($LASTEXITCODE -ne 0) { throw "MSBuild publish failed ($LASTEXITCODE)" }
 
 Write-Host 'Compiling installer...'
 & $iscc $iss
