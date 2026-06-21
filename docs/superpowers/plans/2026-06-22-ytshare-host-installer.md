@@ -195,22 +195,11 @@ begin
            '/i "' + ExpandConstant('{app}\redist\Bonjour64.msi') + '" /qn /norestart',
            '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
 
-    { Firewall: delete any stale rule (ignore failure), then add. Warn if the add fails. }
     Exec(ExpandConstant('{sys}\netsh.exe'),
          'advfirewall firewall delete rule name="' + FirewallRule + '"',
          '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-    if not (Exec(ExpandConstant('{sys}\netsh.exe'),
          'advfirewall firewall add rule name="' + FirewallRule + '" dir=in action=allow protocol=TCP localport=' + Port,
-         '', SW_HIDE, ewWaitUntilTerminated, ResultCode) and (ResultCode = 0)) then
-      SuppressibleMsgBox('Warning: could not add the firewall rule for port ' + Port +
-        '. Other devices may not be able to reach YTShare Host until you allow it manually.',
-        mbError, MB_OK, IDOK);
 
-    { Register the logon Scheduled Task. Warn if registration fails. }
-    if not CreateLogonTask() then
-      SuppressibleMsgBox('Warning: could not register the "' + TaskName +
-        '" startup task. YTShare Host will not auto-start at logon until you add it manually.',
-        mbError, MB_OK, IDOK);
   end;
 end;
 
@@ -252,12 +241,8 @@ Note in your own records: **replace this placeholder with the real Apple `Bonjou
 
 - [ ] **Step 4: Verify the script compiles**
 
-First publish the app so the `[Files]` source exists, using VS MSBuild (NOT `dotnet` — see Global Constraints):
 ```powershell
-$msbuild = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find "MSBuild\**\Bin\MSBuild.exe" | Select-Object -First 1
-& $msbuild "C:\Users\iliev\Desktop\YTShare\YTShare.Host\YTShare.Server\YTShare.Server.csproj" /t:Restore,Publish /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:PublishSingleFile=true /v:minimal /nologo
 ```
-Expected: `EXITCODE=0`; publish output appears at `bin/Release/net8.0/win-x64/publish/` with `YTShare.Server.exe` (~89 MB, self-contained).
 
 Then compile the installer (from `YTShare.Host/installer`):
 ```powershell
@@ -320,13 +305,6 @@ if (-not (Test-Path $vswhere)) {
     throw "vswhere not found at $vswhere. Install Visual Studio (with MSBuild) — the dotnet CLI cannot build the Bonjour COMReference."
 }
 
-# The project's Bonjour COMReference requires full VS MSBuild; dotnet build/publish fails with MSB4803.
-$msbuild = & $vswhere -latest -requires Microsoft.Component.MSBuild -find 'MSBuild\**\Bin\MSBuild.exe' | Select-Object -First 1
-if (-not $msbuild) { throw 'MSBuild.exe not found via vswhere. Ensure the MSBuild component is installed with Visual Studio.' }
-
-Write-Host "Publishing YTShare.Server (self-contained, single-file, win-x64) via $msbuild ..."
-& $msbuild $project /t:Restore,Publish /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:PublishSingleFile=true /v:minimal /nologo
-if ($LASTEXITCODE -ne 0) { throw "MSBuild publish failed ($LASTEXITCODE)" }
 
 Write-Host 'Compiling installer...'
 & $iscc $iss

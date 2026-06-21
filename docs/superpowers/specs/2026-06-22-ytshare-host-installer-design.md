@@ -136,13 +136,6 @@ One change, to make the terminal invisible:
 
 `build.ps1`:
 
-1. Publish via **Visual Studio MSBuild** (located through `vswhere`), NOT the
-   `dotnet` CLI: the project's Bonjour `COMReference` cannot be resolved by
-   `dotnet build`/`dotnet publish` (error MSB4803 — `ResolveComReference`
-   requires .NET Framework MSBuild). Command:
-   `MSBuild.exe YTShare.Server.csproj /t:Restore,Publish /p:Configuration=Release
-   /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:PublishSingleFile=true`
-   → produces the windowless self-contained single-file app (~89 MB exe).
 2. Invoke `ISCC.exe YTShareHost.iss` → produces `YTShareHostSetup.exe`.
 
 > **Build prerequisite:** Visual Studio with MSBuild + the .NET 8 targeting
