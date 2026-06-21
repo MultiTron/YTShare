@@ -2,7 +2,9 @@
 
 **Date:** 2026-06-22
 **Status:** Approved (design); pending implementation plan
-**Component:** `YTShare.Host/YTShare.Server` (ASP.NET Core minimal API, .NET 8)
+**Components:**
+- `YTShare.Host/YTShare.Server` (ASP.NET Core minimal API, .NET 8) — the installer
+- `frontend/` (Angular static app on Render) — the landing-page download link
 
 ## Goal
 
@@ -10,6 +12,9 @@ Produce a single double-clickable installer that sets up YTShare.Host on a
 Windows machine with zero manual steps: it installs every redistributable the
 app needs, runs the app with no visible terminal window, and makes it start
 automatically. Uninstalling cleanly reverses everything the installer added.
+
+Additionally, make the installer downloadable from the Angular landing page's
+existing "Windows Host" download button.
 
 ## Context
 
@@ -127,6 +132,63 @@ One change, to make the terminal invisible:
    -p:PublishSingleFile=true` → produces the windowless self-contained app.
 2. Invoke `ISCC.exe YTShareHost.iss` → produces `YTShareHostSetup.exe`.
 
+## Landing-page download link
+
+The Angular landing page (`frontend/`, a static app served by nginx in a Docker
+container on Render) already renders a "Windows Host" download card, but its
+button points at a dead relative path (`/downloads/YTShare.Host.zip`). Wire it to
+the installer.
+
+### Hosting: GitHub Releases
+
+The ~80MB self-contained installer must **not** enter the git repo or the Render
+Docker image. It is published as a **GitHub Release asset** on the public repo
+`MultiTron/YTShare` (confirmed public, so anonymous download links work — no
+auth required).
+
+### Download URL
+
+Use GitHub's **"latest" permalink** rather than a version-pinned URL:
+
+```
+https://github.com/MultiTron/YTShare/releases/latest/download/YTShareHostSetup.exe
+```
+
+GitHub redirects this to the most recent published (non-prerelease) release that
+has an asset named `YTShareHostSetup.exe`, and serves it with
+`Content-Disposition: attachment` (browser downloads rather than navigates).
+Benefit: the landing page is edited once and never again — each release just
+needs an asset with that exact filename.
+
+### Code change (one file)
+
+`frontend/src/app/features/landing/landing.component.html` — the Windows Host
+card's anchor (currently the `href="/downloads/YTShare.Host.zip"` link):
+
+- `href` → the GitHub latest-download URL above.
+- Add `rel="noopener"`.
+- Button label stays "Download for Windows".
+
+No nginx, Dockerfile, backend, or Angular asset-pipeline changes. The Android
+card is left untouched (out of scope).
+
+### Release process (manual, documented)
+
+Per version:
+
+1. Build `YTShareHostSetup.exe` via the installer's `build.ps1`.
+2. Create a GitHub Release (e.g. tag `host-v1.0.0`) on `MultiTron/YTShare`.
+3. Upload the `.exe` as an asset named **exactly** `YTShareHostSetup.exe`.
+
+Automating this with a GitHub Actions workflow is out of scope for now (YAGNI).
+
+### Edge cases
+
+- **No release yet:** the latest-download URL 404s until the first release is
+  published. Acceptable — the button works the moment a release exists.
+- **Filename drift:** an asset not named exactly `YTShareHostSetup.exe` breaks
+  the link — hence the explicit naming rule above.
+
 ## Success criteria
 
 - Double-clicking the installer on a clean win-x64 machine (no .NET, no Bonjour)
@@ -137,3 +199,6 @@ One change, to make the terminal invisible:
 - Uninstall removes the app, task, and firewall rule (Bonjour optional).
 - Re-running the installer over an existing install does not create duplicate
   firewall rules or tasks.
+- The landing page's "Download for Windows" button links to the GitHub
+  latest-download URL and downloads the installer once a release is published.
+- `npm run build` succeeds with the updated landing page.
