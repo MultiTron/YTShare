@@ -15,6 +15,8 @@
 - App runs **per-user, non-elevated** in the logged-in user's session; the installer runs **elevated** (admin).
 - App listens on `http://0.0.0.0:7296`; firewall rule and Bonjour service name must use port/name verbatim.
 - Scheduled Task name: exactly `YTShare Host`. Firewall rule name: exactly `YTShare Host`.
+- The logon task is registered from an XML definition (`schtasks /Create /XML`), runs at any interactive logon as the Users group (SID `S-1-5-32-545`, least privilege) with restart-on-failure. No "hidden" task setting (the app is a windowless `WinExe`).
+- Real failure of the firewall *add* or the task *create* surfaces a warning (not silent); the firewall *delete* and uninstall steps stay fail-open for idempotency.
 - Installer output filename: exactly `YTShareHostSetup.exe` (the landing-page URL depends on this name).
 - Bonjour is **left installed** on uninstall unless the user opts to remove it.
 - Repo: `MultiTron/YTShare` (public). Landing-page download URL: `https://github.com/MultiTron/YTShare/releases/latest/download/YTShareHostSetup.exe`.
@@ -140,6 +142,47 @@ begin
   Result := RegKeyExists(HKLM, 'SYSTEM\CurrentControlSet\Services\Bonjour Service');
 end;
 
+{ Register the logon task from an XML definition: runs at any interactive logon,
+  in the user's own session, least-privilege, with restart-on-failure.
+  Principal targets the built-in Users group (SID S-1-5-32-545) so it runs as
+  whoever logs on — avoiding the elevated-installer {username} ambiguity.
+  No "hidden" setting is needed because the app is a windowless WinExe. }
+function CreateLogonTask(): Boolean;
+var
+  XmlPath, Xml, ExePath: String;
+  ResultCode: Integer;
+begin
+  ExePath := ExpandConstant('{app}\{#ExeName}');
+  XmlPath := ExpandConstant('{tmp}\YTShareHostTask.xml');
+  Xml :=
+    '<?xml version="1.0" encoding="UTF-8"?>' + #13#10 +
+    '<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">' + #13#10 +
+    '  <RegistrationInfo><Description>YTShare Host</Description></RegistrationInfo>' + #13#10 +
+    '  <Triggers><LogonTrigger><Enabled>true</Enabled></LogonTrigger></Triggers>' + #13#10 +
+    '  <Principals><Principal id="Author">' + #13#10 +
+    '    <GroupId>S-1-5-32-545</GroupId>' + #13#10 +
+    '    <RunLevel>LeastPrivilege</RunLevel>' + #13#10 +
+    '  </Principal></Principals>' + #13#10 +
+    '  <Settings>' + #13#10 +
+    '    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>' + #13#10 +
+    '    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>' + #13#10 +
+    '    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>' + #13#10 +
+    '    <StartWhenAvailable>true</StartWhenAvailable>' + #13#10 +
+    '    <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>' + #13#10 +
+    '    <Enabled>true</Enabled>' + #13#10 +
+    '    <RestartOnFailure><Interval>PT1M</Interval><Count>3</Count></RestartOnFailure>' + #13#10 +
+    '  </Settings>' + #13#10 +
+    '  <Actions Context="Author">' + #13#10 +
+    '    <Exec><Command>' + ExePath + '</Command></Exec>' + #13#10 +
+    '  </Actions>' + #13#10 +
+    '</Task>';
+  { Write UTF-8 with BOM so schtasks parses the XML correctly }
+  SaveStringToFile(XmlPath, #$EF#$BB#$BF + Xml, False);
+  Result := Exec(ExpandConstant('{sys}\schtasks.exe'),
+       '/Create /TN "' + TaskName + '" /XML "' + XmlPath + '" /F',
+       '', SW_HIDE, ewWaitUntilTerminated, ResultCode) and (ResultCode = 0);
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   ResultCode: Integer;
@@ -152,18 +195,22 @@ begin
            '/i "' + ExpandConstant('{app}\redist\Bonjour64.msi') + '" /qn /norestart',
            '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
 
-    { Firewall: delete any stale rule, then add (idempotent). Ignore delete failures. }
+    { Firewall: delete any stale rule (ignore failure), then add. Warn if the add fails. }
     Exec(ExpandConstant('{sys}\netsh.exe'),
          'advfirewall firewall delete rule name="' + FirewallRule + '"',
          '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-    Exec(ExpandConstant('{sys}\netsh.exe'),
+    if not (Exec(ExpandConstant('{sys}\netsh.exe'),
          'advfirewall firewall add rule name="' + FirewallRule + '" dir=in action=allow protocol=TCP localport=' + Port,
-         '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+         '', SW_HIDE, ewWaitUntilTerminated, ResultCode) and (ResultCode = 0)) then
+      SuppressibleMsgBox('Warning: could not add the firewall rule for port ' + Port +
+        '. Other devices may not be able to reach YTShare Host until you allow it manually.',
+        mbError, MB_OK, IDOK);
 
-    { Logon Scheduled Task for the original (non-elevated) user, least privilege, overwrite if present }
-    Exec(ExpandConstant('{sys}\schtasks.exe'),
-         '/Create /TN "' + TaskName + '" /TR "\"' + ExpandConstant('{app}\{#ExeName}') + '\"" /SC ONLOGON /RU "' + ExpandConstant('{username}') + '" /RL LIMITED /F',
-         '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    { Register the logon Scheduled Task. Warn if registration fails. }
+    if not CreateLogonTask() then
+      SuppressibleMsgBox('Warning: could not register the "' + TaskName +
+        '" startup task. YTShare Host will not auto-start at logon until you add it manually.',
+        mbError, MB_OK, IDOK);
   end;
 end;
 
