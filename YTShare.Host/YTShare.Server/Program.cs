@@ -1,4 +1,3 @@
-using Bonjour;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -14,8 +13,6 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-RegisterBonjourService();
-
 app.MapGet("/Share", ([FromQuery] string link) =>
 {
     Process.Start(new ProcessStartInfo
@@ -27,38 +24,3 @@ app.MapGet("/Share", ([FromQuery] string link) =>
 });
 
 app.Run();
-
-void RegisterBonjourService()
-{
-    try
-    {
-        DNSSDService bonjourService = new DNSSDService();
-        DNSSDEventManager eventManager = new DNSSDEventManager();
-
-        eventManager.ServiceRegistered += EventManager_ServiceRegistered;
-
-        TXTRecord txtRecord = new TXTRecord();
-        txtRecord.SetValue("hostname", Environment.MachineName);
-
-        bonjourService.Register(
-            0,                      // No flags
-            0,                      // Interface index (0 = all interfaces)
-            "YTShareService",       // Service name
-            "_http._tcp.",          // Service type
-            null,                   // Domain (null = local domain)
-            null,                   // Host name (null = default)
-            7296,                   // Port number
-            txtRecord,              // TXT record with hostname
-            eventManager            // Event manager for callbacks
-        );
-    }
-    catch (Exception ex)
-    {
-        app.Logger.LogError($"Error: {ex.Message}");
-    }
-}
-
-void EventManager_ServiceRegistered(DNSSDService service, DNSSDFlags flags, string name, string regtype, string domain)
-{
-    app.Logger.LogInformation($"Service Registered: {name} {regtype} {domain}");
-}
