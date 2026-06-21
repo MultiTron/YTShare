@@ -31,6 +31,8 @@ class WebSocketAuthInterceptorTest {
 
     private Message<byte[]> connectMessage(final String authHeader) {
         final StompHeaderAccessor accessor = StompHeaderAccessor.create(StompCommand.CONNECT);
+        // Keep headers mutable: on spring-messaging 7.x getMessageHeaders() freezes them,
+        // which would make the interceptor's setUser(...) throw. Do not remove.
         accessor.setLeaveMutable(true);
         if (authHeader != null) {
             accessor.setNativeHeader("Authorization", authHeader);
