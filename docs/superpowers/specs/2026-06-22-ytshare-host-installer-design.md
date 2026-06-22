@@ -98,10 +98,18 @@ One change, to make the terminal invisible:
    (`netsh advfirewall firewall add rule name="YTShare Host" dir=in
    action=allow protocol=TCP localport=7296`). Remove any pre-existing rule of
    the same name first to stay idempotent.
-5. **Startup:** create a **logon Scheduled Task** named `YTShare Host` for the
-   current user that launches `YTShare.Server.exe` in the user's session,
-   hidden, with restart-on-failure. (Chosen over a `Run` registry key because it
-   survives crashes and supports hidden + restart settings.)
+5. **Startup:** register a **logon Scheduled Task** named `YTShare Host` from a
+   generated **XML task definition** (`schtasks /Create /XML ... /F`). The task
+   triggers at user logon and runs `YTShare.Server.exe` in the interactive
+   user's own session with **restart-on-failure** (retry a few times at a short
+   interval). To run as whoever logs on — and to avoid the ambiguity of an
+   elevated installer's `{username}` resolving to a different admin account —
+   the task principal targets the built-in **Users** group
+   (SID `S-1-5-32-545`) with least-privilege run level. (Chosen over a `Run`
+   registry key because it survives crashes via restart-on-failure. The app is
+   already a windowless `WinExe`, so no separate "hidden window" task setting is
+   needed.) If task registration fails, the installer surfaces a warning rather
+   than failing silently.
 6. Offer a **"Launch now"** finish-page checkbox so the app starts immediately
    without requiring a logoff/logon cycle.
 
@@ -128,9 +136,11 @@ One change, to make the terminal invisible:
 
 `build.ps1`:
 
-1. `dotnet publish YTShare.Server -c Release -r win-x64 --self-contained
-   -p:PublishSingleFile=true` → produces the windowless self-contained app.
 2. Invoke `ISCC.exe YTShareHost.iss` → produces `YTShareHostSetup.exe`.
+
+> **Build prerequisite:** Visual Studio with MSBuild + the .NET 8 targeting
+> pack must be installed on the build machine (the `dotnet` SDK alone is
+> insufficient because of the COM reference).
 
 ## Landing-page download link
 

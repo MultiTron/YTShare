@@ -15,11 +15,14 @@
 - App runs **per-user, non-elevated** in the logged-in user's session; the installer runs **elevated** (admin).
 - App listens on `http://0.0.0.0:7296`; firewall rule and Bonjour service name must use port/name verbatim.
 - Scheduled Task name: exactly `YTShare Host`. Firewall rule name: exactly `YTShare Host`.
+- The logon task is registered from an XML definition (`schtasks /Create /XML`), runs at any interactive logon as the Users group (SID `S-1-5-32-545`, least privilege) with restart-on-failure. No "hidden" task setting (the app is a windowless `WinExe`).
+- Real failure of the firewall *add* or the task *create* surfaces a warning (not silent); the firewall *delete* and uninstall steps stay fail-open for idempotency.
 - Installer output filename: exactly `YTShareHostSetup.exe` (the landing-page URL depends on this name).
 - Bonjour is **left installed** on uninstall unless the user opts to remove it.
 - Repo: `MultiTron/YTShare` (public). Landing-page download URL: `https://github.com/MultiTron/YTShare/releases/latest/download/YTShareHostSetup.exe`.
 - `Bonjour64.msi` is **user-supplied** (Apple Bonjour SDK for Windows) and must **never** be committed to git.
 - Code signing is out of scope.
+- **Build with Visual Studio MSBuild, NOT the `dotnet` CLI.** The project has a `COMReference` to Bonjour, which `dotnet build`/`dotnet publish` cannot resolve (error MSB4803 — `ResolveComReference` requires .NET Framework MSBuild). Locate MSBuild via vswhere: `"${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find "MSBuild\**\Bin\MSBuild.exe"`. Restore must run with the RID (`/t:Restore,Publish` with `/p:RuntimeIdentifier=win-x64`), or restore errors with NETSDK1047.
 
 ## File Structure
 
@@ -54,13 +57,15 @@ In `YTShare.Host/YTShare.Server/YTShare.Server.csproj`, edit the first `<Propert
   </PropertyGroup>
 ```
 
-- [ ] **Step 2: Verify it still builds**
+- [ ] **Step 2: Verify it still builds (with VS MSBuild — see Global Constraints)**
 
-Run (from `YTShare.Host/YTShare.Server`):
+Do NOT use `dotnet build` (fails with MSB4803 on the Bonjour COMReference). Locate and run VS MSBuild:
 ```powershell
-dotnet build -c Release
+$msbuild = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find "MSBuild\**\Bin\MSBuild.exe" | Select-Object -First 1
+& $msbuild "C:\Users\iliev\Desktop\YTShare\YTShare.Host\YTShare.Server\YTShare.Server.csproj" /t:Restore,Build /p:Configuration=Release /v:minimal /nologo
+"EXITCODE=$LASTEXITCODE"
 ```
-Expected: `Build succeeded`, 0 errors. (Kestrel runs without a console; the build must not complain about `WinExe`.)
+Expected: `EXITCODE=0` and a line `YTShare.Server -> ...\bin\Release\net8.0\YTShare.Server.dll`. The Bonjour `COMReference` must remain intact in `Program.cs` and the `.csproj` — do not remove it.
 
 - [ ] **Step 3: Commit**
 
@@ -137,6 +142,49 @@ begin
   Result := RegKeyExists(HKLM, 'SYSTEM\CurrentControlSet\Services\Bonjour Service');
 end;
 
+{ Register the logon task from an XML definition: runs at any interactive logon,
+  in the user's own session, least-privilege, with restart-on-failure.
+  Principal targets the built-in Users group (SID S-1-5-32-545) so it runs as
+  whoever logs on, avoiding the elevated-installer username-constant ambiguity.
+  (Do not put literal Inno constants in braces inside a { } comment — the
+  inner brace would close the comment early.)
+  No "hidden" setting is needed because the app is a windowless WinExe. }
+function CreateLogonTask(): Boolean;
+var
+  XmlPath, Xml, ExePath: String;
+  ResultCode: Integer;
+begin
+  ExePath := ExpandConstant('{app}\{#ExeName}');
+  XmlPath := ExpandConstant('{tmp}\YTShareHostTask.xml');
+  Xml :=
+    '<?xml version="1.0" encoding="UTF-8"?>' + #13#10 +
+    '<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">' + #13#10 +
+    '  <RegistrationInfo><Description>YTShare Host</Description></RegistrationInfo>' + #13#10 +
+    '  <Triggers><LogonTrigger><Enabled>true</Enabled></LogonTrigger></Triggers>' + #13#10 +
+    '  <Principals><Principal id="Author">' + #13#10 +
+    '    <GroupId>S-1-5-32-545</GroupId>' + #13#10 +
+    '    <RunLevel>LeastPrivilege</RunLevel>' + #13#10 +
+    '  </Principal></Principals>' + #13#10 +
+    '  <Settings>' + #13#10 +
+    '    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>' + #13#10 +
+    '    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>' + #13#10 +
+    '    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>' + #13#10 +
+    '    <StartWhenAvailable>true</StartWhenAvailable>' + #13#10 +
+    '    <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>' + #13#10 +
+    '    <Enabled>true</Enabled>' + #13#10 +
+    '    <RestartOnFailure><Interval>PT1M</Interval><Count>3</Count></RestartOnFailure>' + #13#10 +
+    '  </Settings>' + #13#10 +
+    '  <Actions Context="Author">' + #13#10 +
+    '    <Exec><Command>' + ExePath + '</Command></Exec>' + #13#10 +
+    '  </Actions>' + #13#10 +
+    '</Task>';
+  { Write UTF-8 with BOM so schtasks parses the XML correctly }
+  SaveStringToFile(XmlPath, #$EF#$BB#$BF + Xml, False);
+  Result := Exec(ExpandConstant('{sys}\schtasks.exe'),
+       '/Create /TN "' + TaskName + '" /XML "' + XmlPath + '" /F',
+       '', SW_HIDE, ewWaitUntilTerminated, ResultCode) and (ResultCode = 0);
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   ResultCode: Integer;
@@ -149,18 +197,11 @@ begin
            '/i "' + ExpandConstant('{app}\redist\Bonjour64.msi') + '" /qn /norestart',
            '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
 
-    { Firewall: delete any stale rule, then add (idempotent). Ignore delete failures. }
     Exec(ExpandConstant('{sys}\netsh.exe'),
          'advfirewall firewall delete rule name="' + FirewallRule + '"',
          '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-    Exec(ExpandConstant('{sys}\netsh.exe'),
          'advfirewall firewall add rule name="' + FirewallRule + '" dir=in action=allow protocol=TCP localport=' + Port,
-         '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
 
-    { Logon Scheduled Task for the original (non-elevated) user, least privilege, overwrite if present }
-    Exec(ExpandConstant('{sys}\schtasks.exe'),
-         '/Create /TN "' + TaskName + '" /TR "\"' + ExpandConstant('{app}\{#ExeName}') + '\"" /SC ONLOGON /RU "' + ExpandConstant('{username}') + '" /RL LIMITED /F',
-         '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   end;
 end;
 
@@ -202,11 +243,8 @@ Note in your own records: **replace this placeholder with the real Apple `Bonjou
 
 - [ ] **Step 4: Verify the script compiles**
 
-First publish the app so the `[Files]` source exists (from `YTShare.Host/YTShare.Server`):
 ```powershell
-dotnet publish -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
 ```
-Expected: publish output appears at `bin/Release/net8.0/win-x64/publish/`.
 
 Then compile the installer (from `YTShare.Host/installer`):
 ```powershell
@@ -257,6 +295,7 @@ $project = Join-Path $root '..\YTShare.Server\YTShare.Server.csproj'
 $iss     = Join-Path $root 'YTShareHost.iss'
 $msi     = Join-Path $root 'redist\Bonjour64.msi'
 $iscc    = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+$vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 
 if (-not (Test-Path $msi)) {
     throw "Missing $msi. Place the Apple Bonjour64.msi (Bonjour SDK for Windows) there before building."
@@ -264,10 +303,10 @@ if (-not (Test-Path $msi)) {
 if (-not (Test-Path $iscc)) {
     throw "Inno Setup 6 not found at $iscc. Install it from https://jrsoftware.org/isdl.php"
 }
+if (-not (Test-Path $vswhere)) {
+    throw "vswhere not found at $vswhere. Install Visual Studio (with MSBuild) — the dotnet CLI cannot build the Bonjour COMReference."
+}
 
-Write-Host 'Publishing YTShare.Server (self-contained, single-file, win-x64)...'
-dotnet publish $project -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
-if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed ($LASTEXITCODE)" }
 
 Write-Host 'Compiling installer...'
 & $iscc $iss

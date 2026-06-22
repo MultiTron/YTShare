@@ -1,0 +1,4 @@
+# User-supplied Apple redistributable — never commit
+redist/Bonjour64.msi
+# Inno Setup compiler output
+Output/
