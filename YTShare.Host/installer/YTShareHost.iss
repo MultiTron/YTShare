@@ -44,7 +44,7 @@ end;
 { Register the logon task from an XML definition: runs at any interactive logon,
   in the user's own session, least-privilege, with restart-on-failure.
   Principal targets the built-in Users group (SID S-1-5-32-545) so it runs as
-  whoever logs on — avoiding the elevated-installer {username} ambiguity.
+  whoever logs on, avoiding the elevated-installer username-constant ambiguity.
   No "hidden" setting is needed because the app is a windowless WinExe. }
 function CreateLogonTask(): Boolean;
 var
